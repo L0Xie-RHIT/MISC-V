@@ -1,0 +1,8 @@
+Tuesday, Oct3
+
+Work:
+Design doc outline, design philosohy, performance definition, memory map. Some contribution in ISA implementation discussion.
+Decisions:
+Philosohy of fuctionality first, memory map of 3 segemtns, performance is speed, should have been 4 instruction types (now is 5).
+Next week tasks:
+Finish design doc
