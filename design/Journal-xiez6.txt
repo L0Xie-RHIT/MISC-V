@@ -19,3 +19,14 @@ The rest is data
 
 Next week tasks:
 Finish design doc
+
+Sunday, Oct8 - Wednesday, Oct11
+
+Work:
+Finished memory map, procedure call convention, translation of RelPrime to binary. RTL design of Y type. Some contribution in other RTL implementation discussion.
+
+Decisions:
+Procesure call convention based on RISC-V but adapted to our ISA. For pipelining RTL for branch save to PC might need changing.
+
+Next week tasks:
+Setup github repo, basic verilog code.
