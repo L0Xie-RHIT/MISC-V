@@ -1,0 +1,13 @@
+Yash Anand’s Journal
+
+9/27/23
+We met in class to discuss which implementation we wanted to do. We have decided on load/store but might incorporate an accumulator later on to gain more optimization. We decided to have registers specific to the problems our machine will have to solve: Euclid’s algorithm and basic code operations. 
+
+10/4/23
+Meeting with Robert, we need to add something more to distinguish it from just RISC-V. Ideas include looking at what we don’t like about RISC-V such as order, procedure calls, and understandability. 
+
+10/10/23
+Completed instructions for I-type RTL, making progress on milestone 2. Should be done with milestone 2 by tomorrow. We should add more stuff to distance from just RISC-V soon, maybe by milestone 3 meaning we will have to meet and discuss sometime this week. 
+
+10/11/23
+Finished milestone 2. We are adding pipelining to add more uniqueness to our project. Next week, I will handle the control signal descriptions and contribute to the datapath design. For milestone 3. 
