@@ -2,7 +2,20 @@ Tuesday, Oct3
 
 Work:
 Design doc outline, design philosohy, performance definition, memory map. Some contribution in ISA implementation discussion.
+
 Decisions:
 Philosohy of fuctionality first, memory map of 3 segemtns, performance is speed, should have been 4 instruction types (now is 5).
+
+Memory Design Process:
+16-bit address bus 0xFFFF or 65536 addresses
+Minimum needed: Instruction Memory + Data Memory
+32 lines for Euclid, each 16 bit. 
+Decision: Word size one byte. 
+2 addresses for each instruction, 64 minimum
+Decision: 
+2^13 = 8192 = 0x2000 for instruction memory
+2^12 = 4096 = 0x1000 reserved
+The rest is data
+
 Next week tasks:
 Finish design doc
