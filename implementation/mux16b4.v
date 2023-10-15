@@ -1,4 +1,4 @@
-module mux16b2(
+module mux16b4(
     input[15:0] a,
     input[15:0] b,
     input[15:0] c,
