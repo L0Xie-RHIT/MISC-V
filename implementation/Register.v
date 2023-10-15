@@ -1,4 +1,4 @@
-module register(
+module Register(
     input [15:0] reg_input,
     input reset[0:0],
     input CLK [0:0],

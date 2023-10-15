@@ -1,6 +1,6 @@
 `timescale 1 ns / 1 ps 
 
-module tb_register();
+module Register_tb();
     reg [15:0] reg_input;
     reg reset;
     reg CLK;
