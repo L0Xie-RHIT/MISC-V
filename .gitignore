@@ -92,6 +92,7 @@ xst/
 _ngo/
 _xmsgs/
 work/
+./implementation/db/
 
 # Quartus intermediate files
 *.ddb
