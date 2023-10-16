@@ -1,16 +1,17 @@
 module Register(
     input [15:0] reg_input,
-    input reset[0:0],
-    input CLK [0:0],
+    input [0:0] reset,
+    input [0:0] CLK,
     output reg [15:0] reg_output
-)
+);
 
 always @ (posedge(CLK))
 begin
-    if(reset != 1) begin
+    if (reset != 1) begin
         reg_output = reg_input;
+    end else begin 
+        reg_output = 16'b0000000000000000;
     end
-        reg_output = reg_input;
 end
 
 endmodule
