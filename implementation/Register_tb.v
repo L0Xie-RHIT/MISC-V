@@ -7,7 +7,7 @@ module Register_tb();
 
     wire [15:0] reg_output;
 
-    register UUT(
+    Register UUT(
         .reg_input(reg_input),
         .reset(reset),
         .CLK(CLK),
@@ -18,7 +18,7 @@ module Register_tb();
 
     initial begin 
         CLK = 0;
-        forever begin
+        repeat (100) begin
             #(HALF_PERIOD);
             CLK = ~CLK;
         end
@@ -59,7 +59,7 @@ module Register_tb();
             $display("Register Test 2 failed: input persistance error");
         end
         
-
+        $display("Register Test finished");
     end
 
 endmodule
