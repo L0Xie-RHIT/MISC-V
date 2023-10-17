@@ -92,7 +92,10 @@ xst/
 _ngo/
 _xmsgs/
 work/
-./implementation/db/
+implementation/db/
+implementation/incremental_db/
+implementation/output_files/
+implementation/simulation/
 
 # Quartus intermediate files
 *.ddb
@@ -110,3 +113,24 @@ work/
 *.done
 *.rpt
 *.summary
+
+# Random 
+*.a*
+*.b*
+*.c*
+*.d*
+*.e*
+*.h*
+*.i*
+*.j*
+*.k*
+*.m*
+*.p*
+*.q*
+*.s*
+*.t*
+*.W*
+*.x*
+*.vo
+
+MISC_V.*

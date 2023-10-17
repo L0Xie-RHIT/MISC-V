@@ -29,6 +29,7 @@ module mux16b2_tb();
             s = 1 - (1*s); 
         end
 
+        $display("Mux Test finished");
     end 
 
 endmodule
