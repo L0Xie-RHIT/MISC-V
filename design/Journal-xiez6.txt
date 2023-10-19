@@ -30,3 +30,18 @@ Procesure call convention based on RISC-V but adapted to our ISA. For pipelining
 
 Next week tasks:
 Setup github repo, basic verilog code.
+
+Sunday, Oct15 - Wednesday, Oct18
+Work:
+Register file and Imm_Gen implementation. implementation and integration plans.
+Decisions:
+Register file is 8 registers with muxes for selection. Imm_Gen is 16 bit sign extention.
+Test plans were not fully done becuase block definitions were done late.
+Plans can change based on actual implementation progress since it's broken up.
+Next week:
+Test register file and imm gen. Do branch predictor.
+
+Thrusday, Oct19
+Work:
+General Version of implementation and integration test plans.
+Made excel version of block definitions to try to fix table.
