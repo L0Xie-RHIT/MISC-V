@@ -5,7 +5,6 @@ module Register_File(
     input [15:0] Reg_input_data,
     input CLK,
     input Reset,
-    input Reg_Read,
     input Reg_Write,
     output [15:0] Reg_output1,
     output [15:0] Reg_output2,
@@ -65,8 +64,5 @@ mux16b4 lower2_mux3(.a(registers[4]), .b(registers[5]), .c(registers[6]), .d(reg
              .s(Reg_address3[1:0]), .r(mux_connection3[1]));
 
 mux16b2 upper_mux3(.a(mux_connection3[0]), .b(mux_connection3[1]), .s(Reg_address3[2]), .r(Reg_output3));
-
-
-
 
 endmodule
