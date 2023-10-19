@@ -40,3 +40,8 @@ Test plans were not fully done becuase block definitions were done late.
 Plans can change based on actual implementation progress since it's broken up.
 Next week:
 Test register file and imm gen. Do branch predictor.
+
+Thrusday, Oct19
+Work:
+General Version of implementation and integration test plans.
+Made excel version of block definitions to try to fix table.
