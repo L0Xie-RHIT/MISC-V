@@ -7,11 +7,11 @@ module MEM_WB(
     input CLK,
     input Reset,
     input RegWrite,
-    output [0:0] ORegWrite,
-    output [0:0] ORegStore,
-    output [15:0] OALUResult,
-    output [15:0] OStoreMem,
-    output [15:0] ORd,
+    output reg[0:0] ORegWrite,
+    output reg[0:0] ORegStore,
+    output reg[15:0] OALUResult,
+    output reg[15:0] OStoreMem,
+    output reg[15:0] ORd,
 );
 
 always @ (posedge(CLK))
