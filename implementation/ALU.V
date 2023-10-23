@@ -27,9 +27,9 @@ begin
         OutputData = 0;
 	end 
 
-    if (1stInput - 2ndInput = 0) 
+    if (1stInput - 2ndInput = 0) begin 
         Zero = 1;
-    end else
+    end else begin
         Zero = 0;
     end
 end

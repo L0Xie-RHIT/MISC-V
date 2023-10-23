@@ -30,20 +30,37 @@ initial begin
  end
  
  initial begin
-		clk = 0;
-		w = 1;
-        w = 1;
-		addr = 'h0000;
-		data = 'h1111;
-		
-		#(3*PERIOD);
-		addr = 'h0001;
-		data = 'h2222;
-		
-		#(2*PERIOD);
-		we = 0;
-		addr = 'h0000;
-		data = 'h2222;
+	clk = 0;
+	w = 1;
+	r = 1;
+	addr = 'h0000;
+	data = 'h1111;
+	
+	#(2*PERIOD);
+
+	if (q != data) begin
+		$display("Test 1 failed - No Data Write when bit 1")
+	end
+
+	w = 0;
+	addr = 'h0001;
+	data = 'h2222;
+
+	#(2*PERIOD);
+	if (q == data) begin
+		$display("Test 2 failed - Data Write even when bit 0")
+	end
+
+	w = 1;
+	r=0;
+	addr = 'h0000;
+	data = 'h3333;
+	#(2*PERIOD);
+
+	if (q == data) begin
+		$display("Test 3 failed - Data Read even when bit 0")
+	end
+
 end
 	  
 	  
