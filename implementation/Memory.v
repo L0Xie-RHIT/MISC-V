@@ -1,4 +1,4 @@
-module memory
+module Memory
 #(parameter DATA_WIDTH=16, parameter ADDR_WIDTH=16)
 (
 	input [(DATA_WIDTH-1):0] data,
