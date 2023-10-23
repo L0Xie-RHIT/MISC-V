@@ -39,7 +39,7 @@ initial begin
 	#(2*PERIOD);
 
 	if (q != data) begin
-		$display("Test 1 failed - No Data Write when bit 1")
+		$display("Test 1 failed - No Data Write when bit 1");
 	end
 
 	w = 0;
@@ -48,7 +48,7 @@ initial begin
 
 	#(2*PERIOD);
 	if (q == data) begin
-		$display("Test 2 failed - Data Write even when bit 0")
+		$display("Test 2 failed - Data Write even when bit 0");
 	end
 
 	w = 1;
@@ -58,9 +58,10 @@ initial begin
 	#(2*PERIOD);
 
 	if (q == data) begin
-		$display("Test 3 failed - Data Read even when bit 0")
+		$display("Test 3 failed - Data Read even when bit 0");
 	end
 
+	$display("Mem Tests complete");
 end
 	  
 	  

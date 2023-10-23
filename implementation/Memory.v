@@ -4,7 +4,7 @@ module Memory
 	input [(DATA_WIDTH-1):0] data,
 	input [(ADDR_WIDTH-1):0] addr,
 	input w, r, clk,
-	output [(DATA_WIDTH-1):0] q
+	output reg [(DATA_WIDTH-1):0] q
 );
 
 	// Declare the RAM variable

@@ -133,4 +133,4 @@ implementation/simulation/
 *.x*
 *.vo
 
-MISC_V.*
+implementation/MISC_V*
