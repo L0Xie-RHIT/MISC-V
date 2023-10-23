@@ -66,7 +66,7 @@ module Register_tb();
         #(10*HALF_PERIOD);
 
         reg_write = 0;
-        reg_input = 16'1111111111111111;
+        reg_input = 16'b1111111111111111;
 
         #(2*HALF_PERIOD);
         
