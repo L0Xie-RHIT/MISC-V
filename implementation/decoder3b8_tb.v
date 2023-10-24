@@ -27,53 +27,52 @@ module decoder3x8_tb();
 
     // Case 1: in = 000
     in = 3'b000;
-    #5;
+    #1;
     $display("Input: 000, Output: %b", out);
-    #HALF_PERIOD
+    #(HALF_PERIOD);
 
     // Case 2: in = 001
     in = 3'b001;
-    #5;
+    #1;
     $display("Input: 001, Output: %b", out);
-    #HALF_PERIOD
+    #(HALF_PERIOD);
 
     // Case 3: in = 010
     in = 3'b010;
-    #5;
+    #1;
     $display("Input: 010, Output: %b", out);
-    #HALF_PERIOD
+    #(HALF_PERIOD);
 
     // Case 4: in = 011
     in = 3'b011;
-    #5;
+    #1;
     $display("Input: 011, Output: %b", out);
-    #HALF_PERIOD
+    #(HALF_PERIOD);
 
     // Case 5: in = 100
     in = 3'b100;
-    #5;
+    #1;
     $display("Input: 100, Output: %b", out);
-    #HALF_PERIOD
+    #(HALF_PERIOD);
 
     // Case 6: in = 101
     in = 3'b101;
-    #5;
+    #1;
     $display("Input: 101, Output: %b", out);
-    #HALF_PERIOD
+    #(HALF_PERIOD);
 
     // Case 7: in = 110
     in = 3'b110;
-    #5;
+    #1;
     $display("Input: 110, Output: %b", out);
-    #HALF_PERIOD
+    #(HALF_PERIOD);
 
     // Case 8: in = 111
     in = 3'b111;
-    #5;
+    #1;
     $display("Input: 111, Output: %b", out);
-    #HALF_PERIOD
+    #(HALF_PERIOD);
 
-    $finish;
     end
 
 endmodule
