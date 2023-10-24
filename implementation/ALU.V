@@ -4,7 +4,7 @@ module ALU(
 	input [2:0] ALUOp,
 	input [0:0] CLK,
     output [15:0]OutputData,
-    output [0:0]Zero,
+    output [0:0]Zero
 );
 
 always @ (posedge(CLK))

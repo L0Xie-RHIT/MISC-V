@@ -29,27 +29,27 @@ module ID_EX(
     output reg[15:0] OImm,
     output reg[15:0] ORs1,
     output reg[15:0] ORs2,
-    output reg[15:0] ORd,
+    output reg[15:0] ORd
 );
 
 always @ (posedge(CLK))
 begin
     if (reset != 1) begin
         if(RegWrite == 1) begin
-            ORegWrite = IRegWrite,
-            OALUSrc = IALUSrc,
-            OALUOP = IALUOP,
-            OBranch = IBranch,
-            OMemWrite = IMemWrite,
-            OMemRead = IMemRead,
-            ORegStore = IRegStore,
-            O1stArg = I1stArg,
-            O2ndArg = I2ndArg,
-            O3rdArg = I3rdArg,
-            OImm = IImm,
-            ORs1 = IRs1,
-            ORs2 = IRs2,
-            ORd = IRd,
+            ORegWrite = IRegWrite;
+            OALUSrc = IALUSrc;
+            OALUOP = IALUOP;
+            OBranch = IBranch;
+            OMemWrite = IMemWrite;
+            OMemRead = IMemRead;
+            ORegStore = IRegStore;
+            O1stArg = I1stArg;
+            O2ndArg = I2ndArg;
+            O3rdArg = I3rdArg;
+            OImm = IImm;
+            ORs1 = IRs1;
+            ORs2 = IRs2;
+            ORd = IRd;
         end
     end else begin 
         reg_output = 16'b0000000000000000;

@@ -5,7 +5,7 @@ module IF_ID(
     input Reset,
     input RegWrite,
     output reg[15:0] OPC,
-    output reg[15:0] OIR,
+    output reg[15:0] OIR
 );
 
 always @ (posedge(CLK))
