@@ -27,20 +27,6 @@ module Register_tb();
     end
 
     initial begin
-    /*
-        To test the register, we assume that it has a CLK, Regwrite and Reset signal as inputs
-        and reg_output as output.
-
-        Instantiating the component, we cannot assume any specific output values for the register.
-        
-        Thus, the reset signal is first put to 1.
-
-        Reset:  An overlapping reset=1 and rising edge for the clock, changes all output bits of the register to 0. 
-                Otherwise the output bits stay unchanged.
-
-        CLK:    Each rising edge of the clock should set the output of the register to the input 
-                of the register.
-    */
         reset = 0;
         reg_write = 0;
 

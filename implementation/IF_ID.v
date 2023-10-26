@@ -16,7 +16,8 @@ begin
             OIR = IIR;
         end
     end else begin 
-        reg_output = 16'b0000000000000000;
+        OPC = 'h0000;
+        OIR = 'h0000;
     end
 end
 
