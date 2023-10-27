@@ -12,8 +12,8 @@ wire[0:0] is_zero;
 
 //instantiate any module to test (in this case, the ALU)
 ALU ALU_uut(
-	.1stInput(first_input),
-	.2ndInput(second_input),
+	.FirstInput(first_input),
+	.SecondInput(second_input),
 	.ALUOp(opcode),
 	.CLK(clock),
     .OutputData(result),
@@ -26,7 +26,7 @@ parameter HALF_PERIOD = 50;
 integer failures = 0;
 
 initial begin
-    CLK = 0;
+    clock = 0;
     forever begin
         #(HALF_PERIOD);
         clock = ~clock;
@@ -49,10 +49,37 @@ initial begin
 		$display("The Block does not initialize. No other tests will be run.");
 		$stop;
 	end
-	
-	//-----TEST 2-----
-	//testing Add values.
+
+    //-----TEST 2-----
+	//Testing noop
+	$display("Testing noop.");
     opcode = 0;
+	
+    first_input = 0;
+    second_input = 0;
+	
+	#(2*HALF_PERIOD);
+	
+	if (result != 0 || is_zero != 1) begin
+		$display("There is an error in noop. Somehow.");
+		$stop;
+	end
+
+    repeat (5) begin
+        first_input = $random;
+        second_input = $random;
+	
+	    #(2*HALF_PERIOD);
+	
+	    if (result != 0 || is_zero != 1) begin
+		    $display("There is an error in noop. Somehow.");
+		    $stop;
+	    end
+    end
+	
+	//-----TEST 3-----
+	//testing Add values.
+    opcode = 1;
 	
     first_input = 1;
     second_input = 1;
@@ -61,7 +88,7 @@ initial begin
 
     if (result != 2 || is_zero != 0) begin
 		$display("There is an error in add: basic addition");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = 15;
@@ -71,7 +98,7 @@ initial begin
 
     if (result != 43 || is_zero != 0) begin
 		$display("There is an error in add: complex addition");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = -13;
@@ -81,7 +108,7 @@ initial begin
 
     if (result != -9 || is_zero != 0) begin
 		$display("There is an error in add: basic negative addition");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = -3;
@@ -91,13 +118,13 @@ initial begin
 
     if (result != -8 || is_zero != 0) begin
 		$display("There is an error in add: complex addition");
-        failures += 1;
+        failures = failures + 1;
 	end
 
 
-	//-----TEST 3-----
+	//-----TEST 4-----
 	//testing subtract values.
-    opcode = 1;
+    opcode = 2;
 	
     first_input = 1;
     second_input = 1;
@@ -106,7 +133,7 @@ initial begin
 
     if (result != 0 || is_zero != 1) begin
 		$display("There is an error in subtract: basic subtraction");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = 15;
@@ -116,7 +143,7 @@ initial begin
 
     if (result != -13 || is_zero != 0) begin
 		$display("There is an error in subtract: complex subtraction");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = -13;
@@ -126,7 +153,7 @@ initial begin
 
     if (result != -17 || is_zero != 0) begin
 		$display("There is an error in subtract: basic negative subtraction, headed negative");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = 13;
@@ -136,7 +163,7 @@ initial begin
 
     if (result != 17 || is_zero != 0) begin
 		$display("There is an error in subtract: basic negative subtraction, headed positive");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = -3;
@@ -146,10 +173,10 @@ initial begin
 
     if (result != 2 || is_zero != 0) begin
 		$display("There is an error in subtract: double negative subtraction");
-        failures += 1;
+        failures = failures + 1;
 	end
 
-    //-----TEST 4-----
+    //-----TEST 5-----
 	//testing or values.
     opcode = 3;
 	
@@ -160,7 +187,7 @@ initial begin
 
     if (result != 3 || is_zero != 0) begin
 		$display("There is an error in or: simple or");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = -15;
@@ -170,7 +197,7 @@ initial begin
 
     if (result != -11 || is_zero != 0) begin
 		$display("There is an error in or: complex or");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = 0;
@@ -180,10 +207,10 @@ initial begin
 
     if (result != 0 || is_zero != 1) begin
 		$display("There is an error in or: zero or");
-        failures += 1;
+        failures = failures + 1;
 	end
 
-    //-----TEST 5-----
+    //-----TEST 6-----
 	//testing and values.
     opcode = 4;
 	
@@ -194,7 +221,7 @@ initial begin
 
     if (result != 0 || is_zero != 1) begin
 		$display("There is an error in and: simple and");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = -15;
@@ -204,7 +231,7 @@ initial begin
 
     if (result != 0 || is_zero != 1) begin
 		$display("There is an error in and: complex and");
-        failures += 1;
+        failures = failures + 1;
 	end
 
     first_input = -15;
@@ -214,10 +241,24 @@ initial begin
 
     if (result != 1 || is_zero != 0) begin
 		$display("There is an error in and: complex and 2");
-        failures += 1;
+        failures = failures + 1;
 	end
 
 	$display("TESTS COMPLETE. \n Failures = %d", failures);
 	$stop;
+
+    //-----TEST 7-----
+	//testing Shift left values.
+    opcode = 6;
+	
+    first_input = 1;
+    second_input = 2;
+
+    #(2*HALF_PERIOD);
+
+    if (result != 0 || is_zero != 1) begin
+		$display("There is an error in and: simple and");
+        failures = failures + 1;
+	end
 end
 endmodule

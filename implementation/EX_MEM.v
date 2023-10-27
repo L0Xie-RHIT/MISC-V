@@ -24,7 +24,7 @@ module EX_MEM(
 
 always @ (posedge(CLK))
 begin
-    if (reset != 1) begin
+    if (Reset != 1) begin
         if(RegWrite == 1) begin
             ORegWrite = IRegWrite;
             OALUSrc = IALUSrc;
