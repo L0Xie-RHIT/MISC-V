@@ -25,7 +25,11 @@ begin
             ORd = IRd;
         end
     end else begin 
-        reg_output = 16'b0000000000000000;
+            ORegWrite = 0;
+            ORegStore = 0;
+            OALUResult = 0;
+            OStoreMem = 0;
+            ORd = 0;
     end
 end
 

@@ -52,7 +52,20 @@ begin
             ORd = IRd;
         end
     end else begin 
-        reg_output = 16'b0000000000000000;
+            ORegWrite = 0;
+            OALUSrc = 0;
+            OALUOP = 0;
+            OBranch = 0;
+            OMemWrite = 0;
+            OMemRead = 0;
+            ORegStore = 0;
+            O1stArg = 0;
+            O2ndArg = 0;
+            O3rdArg = 0;
+            OImm = 0;
+            ORs1 = 0;
+            ORs2 = 0;
+            ORd = 0;
     end
 end
 
