@@ -1,10 +1,10 @@
-module Memory
-#(parameter DATA_WIDTH=16, parameter ADDR_WIDTH=16)
+module raw_memory
+#(parameter DATA_WIDTH=16, parameter ADDR_WIDTH=10)
 (
 	input [(DATA_WIDTH-1):0] data,
 	input [(ADDR_WIDTH-1):0] addr,
-	input w, r, clk,
-	output reg [(DATA_WIDTH-1):0] q
+	input we, clk,
+	output [(DATA_WIDTH-1):0] q
 );
 
 	// Declare the RAM variable
@@ -14,23 +14,19 @@ module Memory
 	reg [ADDR_WIDTH-1:0] addr_reg;
 
 	initial begin 
-		$readmemh("memory.txt", ram);  // add abs path
+		$readmemh("C:/Users/ferrerj/rhit-csse232-2324a-project-misc-v-2324a/memory.txt", ram);
 		$display("Memory Loaded");
 	end
 	
 	always @ (posedge clk)
 	begin
 		// Write
-		if (w)
+		if (we)
 			ram[addr] <= data;
 
 		addr_reg <= addr;
 	end
-
-    always @ (negedge clk)
-    begin
-        if (r)
-            q <= ram[addr_reg];
-    end
+ 
+	assign q = ram[addr_reg];
 
 endmodule

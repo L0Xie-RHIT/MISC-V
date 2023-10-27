@@ -14,7 +14,7 @@ begin
         end
         
     end else begin 
-        reg_output = 16'b0000000000000000;
+        reg_output = 'h0000;
     end
 end
 
