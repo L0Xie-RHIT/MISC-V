@@ -12,9 +12,9 @@ module IF_ID_tb();
 
     IF_ID uut (
         .IPC(IPC),
-        .IIR(IPC),
+        .IIR(IIR),
         .CLK(CLK),
-        .Reset(reset),
+        .reset(reset),
         .RegWrite(reg_write),
         .OPC(OPC),
         .OIR(OIR)
@@ -32,7 +32,7 @@ module IF_ID_tb();
 
     initial begin
         CLK = 0;
-        Reset = 1;
+        reset = 1;
         reg_write = 0;
 
         #(2*HALF_PERIOD);
@@ -41,6 +41,8 @@ module IF_ID_tb();
             $display("Test 1: Reset error");
         end
 
+        reset = 0;
+        reg_write = 1;
         IPC = 'h1234;
         IIR = 'h5678;
 
@@ -50,9 +52,18 @@ module IF_ID_tb();
             $display("Test 2: Register persistence error");
         end
 
+        reg_write = 0;
+        IPC = 'hFFFF;
+        IIR = 'hAAAA;
+
+        #(2*HALF_PERIOD);
+
+        if(OPC == IPC || OIR == IIR) begin
+            $display("Test 3: Register writes without write bit set");
+        end
+
         $display("IF ID Test finished");
 
-        $finish;
     end
 
 endmodule
