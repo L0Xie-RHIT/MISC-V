@@ -43,7 +43,7 @@ module Fetch_Stage_tb();
 
 
 
-        $display("IF ID Test finished");
+        $display("Fetch Stage Test finished");
 
     end
 

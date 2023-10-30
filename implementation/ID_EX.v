@@ -2,7 +2,6 @@ module ID_EX(
     input [0:0] IRegWrite,
     input [0:0] IALUSrc,
     input [2:0] IALUOP,
-    input [0:0] IBranch,
     input [0:0] IMemWrite,
     input [0:0] IMemRead,
     input [0:0] IRegStore,
@@ -19,7 +18,6 @@ module ID_EX(
     output reg[0:0] ORegWrite,
     output reg[0:0] OALUSrc,
     output reg[2:0] OALUOP,
-    output reg[0:0] OBranch,
     output reg[0:0] OMemWrite,
     output reg[0:0] OMemRead,
     output reg[0:0] ORegStore,
@@ -39,7 +37,6 @@ begin
             ORegWrite = IRegWrite;
             OALUSrc = IALUSrc;
             OALUOP = IALUOP;
-            OBranch = IBranch;
             OMemWrite = IMemWrite;
             OMemRead = IMemRead;
             ORegStore = IRegStore;
@@ -55,7 +52,6 @@ begin
             ORegWrite = 0;
             OALUSrc = 0;
             OALUOP = 0;
-            OBranch = 0;
             OMemWrite = 0;
             OMemRead = 0;
             ORegStore = 0;
