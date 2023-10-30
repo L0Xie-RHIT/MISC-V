@@ -3,7 +3,7 @@ module MEM_WB(
     input [0:0] IRegStore,
     input [15:0] IALUResult,
     input [15:0] IStoreMem,
-    input [15:0] IRd,
+    input [2:0] IRd,
     input CLK,
     input Reset,
     input RegWrite,
@@ -11,7 +11,7 @@ module MEM_WB(
     output reg[0:0] ORegStore,
     output reg[15:0] OALUResult,
     output reg[15:0] OStoreMem,
-    output reg[15:0] ORd
+    output reg[2:0] ORd
 );
 
 always @ (posedge(CLK))
