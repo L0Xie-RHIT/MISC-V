@@ -1,4 +1,4 @@
-module Execute_Stage(
+module Write_Stage(
     input reset,
     input clk,
     input RegWrite,
