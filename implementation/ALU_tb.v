@@ -7,8 +7,7 @@ reg[2:0] opcode;
 reg[0:0] clock;
 
 //output
-wire[15:0] result;
-wire[0:0] is_zero;
+wire signed[15:0] result;
 
 //instantiate any module to test (in this case, the ALU)
 ALU ALU_uut(
@@ -17,7 +16,6 @@ ALU ALU_uut(
 	.ALUOp(opcode),
 	.CLK(clock),
     .OutputData(result),
-    .Zero(is_zero)
 );
 
 //clockwork
@@ -62,6 +60,7 @@ initial begin
 	
 	if (result != 0 || is_zero != 1) begin
 		$display("There is an error in noop. Somehow.");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
 		$stop;
 	end
 
@@ -73,6 +72,7 @@ initial begin
 	
 	    if (result != 0 || is_zero != 1) begin
 		    $display("There is an error in noop. Somehow.");
+            $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
 		    $stop;
 	    end
     end
@@ -86,8 +86,9 @@ initial begin
 
     #(2*HALF_PERIOD);
 
-    if (result != 2 || is_zero != 0) begin
+    if (result != 2 || is_zero != 1) begin
 		$display("There is an error in add: basic addition");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -98,6 +99,7 @@ initial begin
 
     if (result != 43 || is_zero != 0) begin
 		$display("There is an error in add: complex addition");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -107,7 +109,8 @@ initial begin
     #(2*HALF_PERIOD);
 
     if (result != -9 || is_zero != 0) begin
-		$display("There is an error in add: basic negative addition");
+		$display("There is an error in add: basic negative addition.");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -118,6 +121,7 @@ initial begin
 
     if (result != -8 || is_zero != 0) begin
 		$display("There is an error in add: complex addition");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -133,6 +137,7 @@ initial begin
 
     if (result != 0 || is_zero != 1) begin
 		$display("There is an error in subtract: basic subtraction");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -143,6 +148,7 @@ initial begin
 
     if (result != -13 || is_zero != 0) begin
 		$display("There is an error in subtract: complex subtraction");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -153,6 +159,7 @@ initial begin
 
     if (result != -17 || is_zero != 0) begin
 		$display("There is an error in subtract: basic negative subtraction, headed negative");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -163,6 +170,7 @@ initial begin
 
     if (result != 17 || is_zero != 0) begin
 		$display("There is an error in subtract: basic negative subtraction, headed positive");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -173,6 +181,7 @@ initial begin
 
     if (result != 2 || is_zero != 0) begin
 		$display("There is an error in subtract: double negative subtraction");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -187,6 +196,7 @@ initial begin
 
     if (result != 3 || is_zero != 0) begin
 		$display("There is an error in or: simple or");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -197,6 +207,7 @@ initial begin
 
     if (result != -11 || is_zero != 0) begin
 		$display("There is an error in or: complex or");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -207,6 +218,7 @@ initial begin
 
     if (result != 0 || is_zero != 1) begin
 		$display("There is an error in or: zero or");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -221,6 +233,7 @@ initial begin
 
     if (result != 0 || is_zero != 1) begin
 		$display("There is an error in and: simple and");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -231,6 +244,7 @@ initial begin
 
     if (result != 0 || is_zero != 1) begin
 		$display("There is an error in and: complex and");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
 
@@ -241,24 +255,129 @@ initial begin
 
     if (result != 1 || is_zero != 0) begin
 		$display("There is an error in and: complex and 2");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
-
-	$display("TESTS COMPLETE. \n Failures = %d", failures);
-	$stop;
 
     //-----TEST 7-----
 	//testing Shift left values.
     opcode = 6;
 	
     first_input = 1;
-    second_input = 2;
+    second_input = 1;
 
     #(2*HALF_PERIOD);
 
-    if (result != 0 || is_zero != 1) begin
-		$display("There is an error in and: simple and");
+    if (result != 2 || is_zero != 1) begin
+		$display("There is an error in left shift: simple shift");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
         failures = failures + 1;
 	end
+
+    first_input = 10;
+    second_input = 1;
+
+    #(2*HALF_PERIOD);
+
+    if (result != 20 || is_zero != 0) begin
+		$display("There is an error in left shift: simple shift 2");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
+        failures = failures + 1;
+	end
+
+    first_input = -4;
+    second_input = 3;
+
+    #(2*HALF_PERIOD);
+
+    if (result != -32 || is_zero != 0) begin
+		$display("There is an error in left shift: complex shift");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
+        failures = failures + 1;
+	end
+
+    first_input = 8;
+    second_input = -3;
+
+    #(2*HALF_PERIOD);
+
+    if (result != 1 || is_zero != 0) begin
+		$display("There is an error in left shift: possible fail shift (TESTING FOR RIGHT MERGE)");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
+        failures = failures + 1;
+	end
+
+    first_input = 0;
+    second_input = $random;
+
+    #(2*HALF_PERIOD);
+
+    if (result != 0 || is_zero != 0) begin
+		$display("There is an error in left shift: shifting zero");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
+        failures = failures + 1;
+	end
+
+    //-----TEST 8-----
+	//testing Shift right values.
+    opcode = 7;
+	
+    first_input = 2;
+    second_input = 1;
+
+    #(2*HALF_PERIOD);
+
+    if (result != 1 || is_zero != 0) begin
+		$display("There is an error in left right: simple shift");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
+        failures = failures + 1;
+	end
+
+    first_input = 10;
+    second_input = 1;
+
+    #(2*HALF_PERIOD);
+
+    if (result != 5 || is_zero != 0) begin
+		$display("There is an error in left right: simple shift 2");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
+        failures = failures + 1;
+	end
+
+    first_input = -8;
+    second_input = 3;
+
+    #(2*HALF_PERIOD);
+
+    if (result != -1 || is_zero != 0) begin
+		$display("There is an error in right shift: complex shift");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
+        failures = failures + 1;
+	end
+
+    first_input = 8;
+    second_input = -3;
+
+    #(2*HALF_PERIOD);
+
+    if (result != 64 || is_zero != 0) begin
+		$display("There is an error in right shift: possible fail shift (TESTING FOR LEFT MERGE)");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
+        failures = failures + 1;
+	end
+
+    first_input = 0;
+    second_input = $random;
+
+    #(2*HALF_PERIOD);
+
+    if (result != 0 || is_zero != 0) begin
+		$display("There is an error in right shift: shifting zero");
+        $display("result:%d is_zero: %d Time: %d", result, is_zero, $time);
+        failures = failures + 1;
+	end
+
+	$display("TESTS COMPLETE. \n Failures = %d", failures);
+	$stop;
 end
 endmodule
