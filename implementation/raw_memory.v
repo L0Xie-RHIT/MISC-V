@@ -14,7 +14,7 @@ module raw_memory
 	reg [ADDR_WIDTH-1:0] addr_reg;
 
 	initial begin 
-		$readmemh("C:/Users/ferrerj/rhit-csse232-2324a-project-misc-v-2324a/memory.txt", ram);
+		$readmemh("C:/Users/ferrerj/rhit-csse232-2324a-project-misc-v-2324a/implementation/memory.txt", ram);
 		$display("Memory Loaded");
 	end
 	

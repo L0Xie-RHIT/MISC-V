@@ -1,23 +1,32 @@
 module Fetch_Stage(
-    input [15:0] pc,
+    input [15:0] pc_in,
     input reset,
     input clk,
-    output reg[15:0] new_pc,
-    output reg[15:0] old_pc,
-    output reg[15:0] ir
+    output [15:0] new_pc,
+    output [15:0] old_pc,
+    output [15:0] ir
+);
+
+wire [15:0] pc_out;
+
+Register pc (
+    .reg_input(pc_in),
+    .reg_write(1'b1),
+    .reset(reset),
+    .CLK(~clk),
+    .reg_output(pc_out)
 );
 
 Memory_Text instruction_memory(
-    .data('h0000),
-    .addr(pc),
-    .we(0),
+    .data(16'h0000),
+    .addr(pc_out),
+    .we(1'b0),
     .clk(clk),
     .q(ir)
-) ;
+);
 
-assign new_pc = pc + 2;
-assign old_pc = pc;
 
-assign
+assign new_pc = pc_out + 2;
+assign old_pc = pc_out;
 
 endmodule
