@@ -2,6 +2,7 @@ module Register_File(
     input [2:0] Reg_address1,
     input [2:0] Reg_address2,
     input [2:0] Reg_address3,
+    input [2:0] Reg_input_address,
     input [15:0] Reg_input_data,
     input CLK,
     input Reset,
@@ -12,10 +13,10 @@ module Register_File(
 );
 
 // Internal storage
-reg [15:0] registers[7:0];
+wire [15:0] registers[7:0];
 
 wire [7:0] decoder_output;
-decoder3b8 decoder_inst (.in(Reg_address3), .out(decoder_output));
+decoder3b8 decoder_inst (.in(Reg_input_address), .out(decoder_output));
 
 // Register Instantiations
 Register reg0(.reg_input(Reg_input_data), .reg_write(decoder_output[0] && Reg_Write),
