@@ -1,10 +1,10 @@
 module ALU(
-	input [15:0] FirstInput,
-	input [15:0] SecondInput,
+	input signed [15:0] FirstInput,
+	input signed [15:0] SecondInput,
 	input [2:0] ALUOp,
-        input [0:0] CLK,
-        output reg [15:0]OutputData,
-        output reg [0:0]Zero
+    input [0:0] CLK,
+    output reg signed[15:0]OutputData,
+    output reg[0:0]Zero
 );
 
 always @ (posedge(CLK))

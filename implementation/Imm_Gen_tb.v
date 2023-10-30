@@ -15,28 +15,79 @@ module tb_Imm_Gen;
   );
 
   initial begin
-    // Initialize inputs
-    instr = 32'h00000000;
-
-    // Wait 100 ns for global reset to finish
-    #100;
-
     // Test type R
-    instr = 32'h00000013;
+    instr = 16'b0000000000000001;
     #10;
-    if (imm !== 32'h00000013) $display("Test case 1 failed");
-
-    // Test case 2
-    instr = 32'h0000f123;
+    if (imm !== 16'b0000000000000001) $display("Type R positive case failed");
     #10;
-    if (imm !== 32'h00000f12) $display("Test case 2 failed");
-
-    // Test case 3
-    instr = 32'h0000f823;
+    instr = 16'b0000000000001000;
     #10;
-    if (imm !== 32'hfffff8ff) $display("Test case 3 failed");
+    if (imm !== 16'b1111111111111000) $display("Type R negative case failed");
+    #10;
 
-    // Add more test cases here
+    // Test type I
+    instr = 16'b0010000000000100;
+    #10;
+    if (imm !== 16'b0000000000000001) $display("Type I positive case failed");
+    #10;
+    instr = 16'b0010000000100000;
+    #10;
+    if (imm !== 16'b1111111111111000) $display("Type I negative case failed");
+    #10;
+
+    // Test type M
+    instr = 16'b0100000000000001;
+    #10;
+    if (imm !== 16'b0000000000000001) $display("Type M positive case 1 failed");
+    #10;
+    instr = 16'b0100000001000000;
+    #10;
+    if (imm !== 16'b1111111111111000) $display("Type M negative case 1 failed");
+    #10;
+    instr = 16'b0110000000000001;
+    #10;
+    if (imm !== 16'b0000000000000001) $display("Type M positive case 2 failed");
+    #10;
+    instr = 16'b0110000001000000;
+    #10;
+    if (imm !== 16'b1111111111111000) $display("Type M negative case 2 failed");
+    #10;
+
+    // Test type Y
+    instr = 16'b1000000000000001;
+    #10;
+    if (imm !== 16'b0000000000000001) $display("Type Y positive case 1 failed");
+    #10;
+    instr = 16'b1001000000000000;
+    #10;
+    if (imm !== 16'b1111111111111000) $display("Type Y negative case 1 failed");
+    #10;
+    instr = 16'b1010000000000001;
+    #10;
+    if (imm !== 16'b0000000000000001) $display("Type Y positive case 2 failed");
+    #10;
+    instr = 16'b1011000000000000;
+    #10;
+    if (imm !== 16'b1111111111111000) $display("Type Y negative case 2 failed");
+    #10;
+
+    // Test type J
+    instr = 16'b1100000000000001;
+    #10;
+    if (imm !== 16'b0000000000000001) $display("Type J positive case 1 failed");
+    #10;
+    instr = 16'b1101000000000000;
+    #10;
+    if (imm !== 16'b1111111111111000) $display("Type J negative case 1 failed");
+    #10;
+    instr = 16'b1110000000000001;
+    #10;
+    if (imm !== 16'b0000000000000001) $display("Type J positive case 2 failed");
+    #10;
+    instr = 16'b1111000000000000;
+    #10;
+    if (imm !== 16'b1111111111111000) $display("Type J negative case 2 failed");
+    #10;
 
     $display("All test cases passed");
     $finish;
