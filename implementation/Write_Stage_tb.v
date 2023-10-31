@@ -55,7 +55,7 @@ module Write_Stage_tb();
 
         #(2*HALF_PERIOD);
         if(loadData != ALUResult || loadAddr != rdWB || regWriteOut != RegWrite) begin
-            $display("Test 2 Error: Writeback does output error");
+            $display("Test 2 Error: Writeback does not output");
         end
 
         $display("Write Stage Test finished");
