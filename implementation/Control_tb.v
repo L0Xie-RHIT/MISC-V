@@ -1,7 +1,7 @@
 `timescale 1 ns / 1 ps
 
 module Control_tb();
-
+	reg CLK;
 
     parameter HALF_PERIOD = 50;
 
