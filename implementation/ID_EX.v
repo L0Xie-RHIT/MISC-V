@@ -2,7 +2,6 @@ module ID_EX(
     input [0:0] IRegWrite,
     input [0:0] IALUSrc,
     input [2:0] IALUOP,
-    input [0:0] IBranch,
     input [0:0] IMemWrite,
     input [0:0] IMemRead,
     input [0:0] IRegStore,
@@ -19,7 +18,6 @@ module ID_EX(
     output reg[0:0] ORegWrite,
     output reg[0:0] OALUSrc,
     output reg[2:0] OALUOP,
-    output reg[0:0] OBranch,
     output reg[0:0] OMemWrite,
     output reg[0:0] OMemRead,
     output reg[0:0] ORegStore,
@@ -29,30 +27,41 @@ module ID_EX(
     output reg[15:0] OImm,
     output reg[15:0] ORs1,
     output reg[15:0] ORs2,
-    output reg[15:0] ORd,
+    output reg[15:0] ORd
 );
 
 always @ (posedge(CLK))
 begin
-    if (reset != 1) begin
+    if (Reset != 1) begin
         if(RegWrite == 1) begin
-            ORegWrite = IRegWrite,
-            OALUSrc = IALUSrc,
-            OALUOP = IALUOP,
-            OBranch = IBranch,
-            OMemWrite = IMemWrite,
-            OMemRead = IMemRead,
-            ORegStore = IRegStore,
-            O1stArg = I1stArg,
-            O2ndArg = I2ndArg,
-            O3rdArg = I3rdArg,
-            OImm = IImm,
-            ORs1 = IRs1,
-            ORs2 = IRs2,
-            ORd = IRd,
+            ORegWrite = IRegWrite;
+            OALUSrc = IALUSrc;
+            OALUOP = IALUOP;
+            OMemWrite = IMemWrite;
+            OMemRead = IMemRead;
+            ORegStore = IRegStore;
+            O1stArg = I1stArg;
+            O2ndArg = I2ndArg;
+            O3rdArg = I3rdArg;
+            OImm = IImm;
+            ORs1 = IRs1;
+            ORs2 = IRs2;
+            ORd = IRd;
         end
     end else begin 
-        reg_output = 16'b0000000000000000;
+            ORegWrite = 0;
+            OALUSrc = 0;
+            OALUOP = 0;
+            OMemWrite = 0;
+            OMemRead = 0;
+            ORegStore = 0;
+            O1stArg = 0;
+            O2ndArg = 0;
+            O3rdArg = 0;
+            OImm = 0;
+            ORs1 = 0;
+            ORs2 = 0;
+            ORd = 0;
     end
 end
 

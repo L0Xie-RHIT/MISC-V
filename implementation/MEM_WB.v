@@ -3,7 +3,7 @@ module MEM_WB(
     input [0:0] IRegStore,
     input [15:0] IALUResult,
     input [15:0] IStoreMem,
-    input [15:0] IRd,
+    input [2:0] IRd,
     input CLK,
     input Reset,
     input RegWrite,
@@ -11,21 +11,25 @@ module MEM_WB(
     output reg[0:0] ORegStore,
     output reg[15:0] OALUResult,
     output reg[15:0] OStoreMem,
-    output reg[15:0] ORd,
+    output reg[2:0] ORd
 );
 
 always @ (posedge(CLK))
 begin
-    if (reset != 1) begin
+    if (Reset != 1) begin
         if(RegWrite == 1) begin
-            ORegWrite = IRegWrite,
-            ORegStore = IRegStore,
-            OALUResult = IALUResult,
-            OStoreMem = IStoreMem,
-            ORd = IRd,
+            ORegWrite = IRegWrite;
+            ORegStore = IRegStore;
+            OALUResult = IALUResult;
+            OStoreMem = IStoreMem;
+            ORd = IRd;
         end
     end else begin 
-        reg_output = 16'b0000000000000000;
+            ORegWrite = 0;
+            ORegStore = 0;
+            OALUResult = 0;
+            OStoreMem = 0;
+            ORd = 0;
     end
 end
 

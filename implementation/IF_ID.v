@@ -4,19 +4,20 @@ module IF_ID(
     input CLK,
     input Reset,
     input RegWrite,
-    output reg[15:0] OPC,
-    output reg[15:0] OIR,
+    output reg [15:0] OPC,
+    output reg [15:0] OIR
 );
 
 always @ (posedge(CLK))
 begin
-    if (reset != 1) begin
+    if (Reset != 1) begin
         if(RegWrite == 1) begin
-            OPC = IPC;
-            OIR = IIR;
+            OPC <= IPC;
+            OIR <= IIR;
         end
     end else begin 
-        reg_output = 16'b0000000000000000;
+        OPC <= 'h0000;
+        OIR <= 'h0000;
     end
 end
 

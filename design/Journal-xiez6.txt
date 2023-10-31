@@ -45,3 +45,7 @@ Thrusday, Oct19
 Work:
 General Version of implementation and integration test plans.
 Made excel version of block definitions to try to fix table.
+
+Tuesday, Oct24
+Work:
+Imm_Gen fix, tb in progress. Plans for branch predictor.
