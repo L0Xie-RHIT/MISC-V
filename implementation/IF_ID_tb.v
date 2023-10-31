@@ -14,7 +14,7 @@ module IF_ID_tb();
         .IPC(IPC),
         .IIR(IIR),
         .CLK(CLK),
-        .reset(reset),
+        .Reset(reset),
         .RegWrite(reg_write),
         .OPC(OPC),
         .OIR(OIR)
