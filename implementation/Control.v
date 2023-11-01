@@ -71,9 +71,9 @@ begin
 	 if(opcode == 3) begin // SW
 		ALUsrc = 0;
 		RegStore = 0;
-		RegWrite = 1;
-		MemRead = 1;
-		MemWrite = 0;
+		RegWrite = 0;
+		MemRead = 0;
+		MemWrite = 1;
 		Branch = 0;
 		JumpOut = 0;
 		ALUop = 1;
