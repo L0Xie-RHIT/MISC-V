@@ -13,15 +13,17 @@ reg [0:0] clock;
 //outputs
 wire [1:0] fwd1test;
 wire [1:0] fwd2test;
+wire [0:0] fwd3test;
 
 Forward Forward_uut(
 	.rs1(rs1test),
 	.rs2(rs2test),
 	.rd(rdtest),
 	.rdMEM(rdMEMtest),
-   .rdWB(rdWBtest),
-   .fwd1(fwd1test),
+	.rdWB(rdWBtest),
+	.fwd1(fwd1test),
 	.fwd2(fwd2test),
+	.fwd3(fwd3test),
 	.clk(clock)
 );
 
@@ -94,6 +96,12 @@ initial begin
 					
 					if (rs2test != rdMEMtest && rs2test != rdWBtest) begin
 						if (fwd2test != 2) begin
+							failures = failures + 1;
+							$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1test, rs2test, rdtest, rdMEMtest, rdWBtest, fwd1test);
+						end
+					end
+					if (rdMEMtest == rdWBtest) begin
+						if (fwd3test != 0) begin
 							failures = failures + 1;
 							$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1test, rs2test, rdtest, rdMEMtest, rdWBtest, fwd1test);
 						end
