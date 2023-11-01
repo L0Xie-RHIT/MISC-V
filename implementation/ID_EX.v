@@ -5,6 +5,7 @@ module ID_EX(
     input [0:0] IMemWrite,
     input [0:0] IMemRead,
     input [0:0] IRegStore,
+    input [15:0] IPCP2,
     input [15:0] I1stArg,
     input [15:0] I2ndArg,
     input [15:0] I3rdArg,
@@ -21,6 +22,7 @@ module ID_EX(
     output reg[0:0] OMemWrite,
     output reg[0:0] OMemRead,
     output reg[0:0] ORegStore,
+    output reg[15:0] OPCP2,
     output reg[15:0] O1stArg,
     output reg[15:0] O2ndArg,
     output reg[15:0] O3rdArg,
@@ -34,19 +36,20 @@ always @ (posedge(CLK))
 begin
     if (Reset != 1) begin
         if(RegWrite == 1) begin
-            ORegWrite = IRegWrite;
-            OALUSrc = IALUSrc;
-            OALUOP = IALUOP;
-            OMemWrite = IMemWrite;
-            OMemRead = IMemRead;
-            ORegStore = IRegStore;
-            O1stArg = I1stArg;
-            O2ndArg = I2ndArg;
-            O3rdArg = I3rdArg;
-            OImm = IImm;
-            ORs1 = IRs1;
-            ORs2 = IRs2;
-            ORd = IRd;
+            ORegWrite <= IRegWrite;
+            OALUSrc <= IALUSrc;
+            OALUOP <= IALUOP;
+            OMemWrite <= IMemWrite;
+            OMemRead <= IMemRead;
+            ORegStore <= IRegStore;
+            OPCP2 <= IPCP2;
+            O1stArg <= I1stArg;
+            O2ndArg <= I2ndArg;
+            O3rdArg <= I3rdArg;
+            OImm <= IImm;
+            ORs1 <= IRs1;
+            ORs2 <= IRs2;
+            ORd <= IRd;
         end
     end else begin 
             ORegWrite = 0;
@@ -55,6 +58,7 @@ begin
             OMemWrite = 0;
             OMemRead = 0;
             ORegStore = 0;
+            OPCP2 = 0;
             O1stArg = 0;
             O2ndArg = 0;
             O3rdArg = 0;

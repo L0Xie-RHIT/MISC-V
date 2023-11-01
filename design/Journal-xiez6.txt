@@ -49,3 +49,6 @@ Made excel version of block definitions to try to fix table.
 Tuesday, Oct24
 Work:
 Imm_Gen fix, tb in progress. Plans for branch predictor.
+
+Tuesday,Oct31
+Imm_Gen tests and more fix

@@ -17,14 +17,14 @@ wire [2:0] opcode = instruction[2:0];
 
 always @* begin
     case (opcode)
-        3'b000: immediate = {12{instruction[15]}, instruction[15:12]};
-        3'b001: immediate = {11{instruction[15]}, instruction[13:9]};
-        3'b010: immediate = {9{instruction[15]} , instruction[15:9]};
-        3'b010: immediate = {9{instruction[15]} , instruction[15:9]};
-        3'b100: immediate = {9{instruction[15]} , instruction[15:12] , instruction[5:3]};
-        3'b101: immediate = {9{instruction[15]} , instruction[15:12] , instruction[5:3]};
-        3'b110: immediate = {6{instruction[15]} , instruction[15:6]};
-        3'b111: immediate = {6{instruction[15]} , instruction[15:6]};
+        3'b000: immediate = {{12{instruction[15]}}, {instruction[15:12]}};
+        3'b001: immediate = {{11{instruction[15]}}, {instruction[13:9]}};
+        3'b010: immediate = {{9{instruction[15]} }, {instruction[15:9]}};
+        3'b010: immediate = {{9{instruction[15]} }, {instruction[15:9]}};
+        3'b100: immediate = {{9{instruction[15]} }, {instruction[15:12]} , {instruction[5:3]}};
+        3'b101: immediate = {{9{instruction[15]} }, {instruction[15:12]} , {instruction[5:3]}};
+        3'b110: immediate = {{6{instruction[15]} }, {instruction[15:6]}};
+        3'b111: immediate = {{6{instruction[15]} }, {instruction[15:6]}};
         default: immediate = 16'b0;
 endcase
 end

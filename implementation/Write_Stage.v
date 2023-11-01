@@ -2,7 +2,8 @@ module Write_Stage(
     input reset,
     input clk,
     input RegWrite,
-    input RegStore,
+    input [1:0] RegStore,
+    input [15:0] IPCP2,
     input [15:0] ALUResult,
     input [15:0] StoreMem,
     input [2:0] rdWB,
@@ -13,12 +14,14 @@ module Write_Stage(
 
 wire [15:0] StoreMemCon;
 wire [15:0] ALUResultCon;
-wire [0:0] RegStoreCon;
+wire [1:0] RegStoreCon;
+wire PCP2Con;
 
 
 MEM_WB MEMWBRB(
     .IRegWrite(RegWrite),
     .IRegStore(RegStore),
+    .IPCP2(IPCP2),
     .IALUResult(ALUResult),
     .IStoreMem(StoreMem),
     .IRd(rdWB),
@@ -27,14 +30,17 @@ MEM_WB MEMWBRB(
     .RegWrite(1'b1),
     .ORegWrite(regWriteOut),
     .ORegStore(RegStoreCon),
+    .OPCP2(PCP2Con),
     .OALUResult(ALUResultCon),
     .OStoreMem(StoreMemCon),
     .ORd(loadAddr)
 );
 
-mux16b2 RegStoreMux(
+mux16b4 RegStoreMux(
     .a(StoreMemCon),
     .b(ALUResultCon),
+    .c(PCP2Con),
+    .d(0),
     .s(RegStoreCon),
     .r(loadData)
 );
