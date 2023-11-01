@@ -1,10 +1,8 @@
 module Forward(
 	input [2:0] rs1,
 	input [2:0] rs2,
-	input [2:0] rd,
 	input [2:0] rdMEM,
 	input [2:0] rdWB,
-	input clk,
 	output reg [1:0] fwd1,
 	output reg [1:0] fwd2,
 	output reg [0:0] fwd3

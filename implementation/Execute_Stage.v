@@ -13,10 +13,10 @@ module Execute_Stage(
     input [15:0] IRs1,
     input [15:0] IRs2,
     input [15:0] IRd,
-    input [15:0] rdMEM,
-    input [15:0] rdWB,
     input [15:0] ALUResultMEM,
     input [15:0] loadDataWB,
+    input [1:0] mux1select,
+    input [1:0] mux2select,
     input reset,
     input clk,
     output ORegWrite,
@@ -26,6 +26,8 @@ module Execute_Stage(
     output [15:0] OPCP2,
     output [15:0] OALUResult,
     output [15:0] O3rdArg,
+    output [15:0] ORs1,
+    output [15:0] ORs2,
     output [15:0] ORd,
 );
 
@@ -34,8 +36,6 @@ wire [2:0] ALUOpCon;
 wire [15:0] arg1;
 wire [15:0] arg2;
 wire [15:0] immCon;
-wire [2:0] rs1Con;
-wire [2:0] rs2Con;
 
 ID_EX IDEXRB (
     .IRegWrite(IRegWrite),
@@ -66,22 +66,20 @@ ID_EX IDEXRB (
     .O2ndArg(arg2),
     .O3rdArg(O3rdArg),
     .OImm(immCon),
-    .ORs1(rs1Con),
-    .ORs2(rs2Con),
+    .ORs1(ORs1),
+    .ORs2(ORs2),
     .ORd(ORd)
 );
 
 wire [15:0] arg1MuxCon;
 wire [15:0] arg2MuxCon;
-wire [1:0] arg1muxSelect;
-wire [1:0] arg2muxSelect;
 
 mux16b4 arg1mux(
     .a(ALUResultMEM),
     .b(loadDataWB),
     .c(arg1),
     .d(0),
-    .s(arg1muxSelect),
+    .s(mux1select),
     .r(arg1MuxCon)
 );
 
@@ -90,7 +88,7 @@ mux16b4 arg2mux(
     .b(loadDataWB),
     .c(arg2),
     .d(0),
-    .s(arg2muxSelect),
+    .s(mux2select),
     .r(arg2MuxCon)
 );
 
@@ -103,15 +101,11 @@ mux16b2 ALUIn2Mux(
     .r(ALUIn2)
 );
 
-
 ALU exALU(
     .FirstInput(arg1MuxCon),
     .SecondInput(ALUIn2),
     .ALUOp(ALUOpCon),
     .OutputData(OALUResult)
 );
-
-
-// TODO: Forwarding
 
 endmodule
