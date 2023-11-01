@@ -2,11 +2,10 @@ module ALU(
 	input signed [15:0] FirstInput,
 	input signed [15:0] SecondInput,
 	input [2:0] ALUOp,
-    input [0:0] CLK,
     output reg signed[15:0]OutputData
 );
 
-always @ (posedge(CLK))
+always @ (*)
     begin
         if (ALUOp == 0) begin 
                     OutputData = 0;

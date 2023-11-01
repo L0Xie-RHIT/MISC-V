@@ -1,7 +1,6 @@
 `timescale 1 ns / 1 ps
 
 module Decode_Stage_tb();
-
   reg [15:0] IPCP2;
   reg [15:0] pc_in;
   reg [15:0] ir_in;
@@ -68,7 +67,7 @@ module Decode_Stage_tb();
     clk = 0;
     reset = 1;
     rf_write = 1;
-    
+
     IPCP2 = 16'h1234; // Initialize input values as needed
     pc_in = 16'h5678;
     ir_in = 16'h9abc;
