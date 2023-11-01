@@ -4,6 +4,7 @@ module Decode_Stage(
     input [15:0] ir_in,
     input [15:0] loadAddr,
     input [15:0] loadData,
+    input rf_write,
     input reset,
     input clk,
     output RegWrite,
@@ -28,7 +29,7 @@ wire [15:0] pc,
 wire [15:0] ir,
 
 IF_ID IFIDRB(
-    .IPCP2(IPCP2)
+    .IPCP2(IPCP2),
     .IPC(pc_in),
     .IIR(ir_in),
     .CLK(clk),
@@ -39,7 +40,31 @@ IF_ID IFIDRB(
     .OIR(ir)
 );
 
-wire RegWrite;
+assign Rs1 = ir[8:6];
+assign Rs2 = ir[11:9];
+assign Rd = ir[5:3];
+
+wire BranchCon;
+wire JumpCon;
+
+Control CUnit(
+    .opcode(ir[2:0]),
+    .func(ir[15:12]),
+    .reset(reset),
+    .CLK(clk),
+    .RegWrite(rf_write),
+    .ALUSrc(ALUSrc),
+    .ALUOp(ALUOp),
+    .MemWrite(MemWrite),
+    .MemRead(MemRead),
+    .RegStore(RegStore),
+    .Branch(BranchCon),
+    .JumpOut(JumpCon)
+);
+
+wire [15:0] arg1;
+wire [15:0] arg2;
+wire [15:0] arg3;
 
 Register_File Regs(
     .Reg_address1(ir[8:6]),
@@ -50,9 +75,42 @@ Register_File Regs(
     .CLK(clk),
     .Reset(reset),
     .Reg_Write(RegWrite),
-    .Reg_output1(1stArg),
-    .Reg_output2(2ndArg),
-    .Reg_output3(3rdArg)
+    .Reg_output1(arg1),
+    .Reg_output2(arg2),
+    .Reg_output3(arg3)
 );
+
+wire [15:0] immCon;
+
+Imm_Gen genie(
+    .instruction(ir),
+    .immediate(immCon)
+);
+
+assign Imm = immCon;
+
+wire [15:0] pc_added;
+wire branchCompCon;
+
+Comparator comp(
+    .FirstInput(arg1),
+    .SecondInput(arg2),
+    .CLK(clk),
+    .OPCode(ir[2:0]),
+    .BranchComparison(branchCompCon)
+);
+
+always @ * begin
+    pc_added <= pc + immCon;
+    jump <= BranchCon && branchCompCon;
+end
+
+mux16b2 jumpMux(
+    .a(pc_added),
+    .b(arg3),
+    .s(JumpCon),
+    .r(new_pc)
+);
+
 
 endmodule

@@ -1,9 +1,9 @@
 module Comparator(
 	input [15:0] FirstInput,
 	input [15:0] SecondInput,
-   input [0:0] CLK,
+   	input [0:0] CLK,
 	input [2:0] OPCode,
-   output reg [0:0]BranchComparison
+   	output reg [0:0]BranchComparison
 );
 
 always @ (*)

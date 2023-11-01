@@ -2,19 +2,19 @@ module Control(
     input [2:0] opcode,
     input [3:0] func,
     input reset,
-	 input CLK,
+	input CLK,
     output reg RegWrite,
-    output reg ALUsrc,
-    output reg [2:0] ALUop,
-    output reg [2:0] RegStore,
+    output reg ALUSrc,
+    output reg [2:0] ALUOp,
     output reg MemWrite,
     output reg MemRead,
+    output reg [1:0] RegStore,
     output reg Branch,
-	 output reg JumpOut
+	output reg JumpOut
 );
 
 
-always @ (posedge(CLK))
+always @ *
 begin
     if(opcode == 0) begin // R-Type
 		ALUsrc = 1;
@@ -45,16 +45,16 @@ begin
 		MemWrite = 0;
 		Branch = 0;
 		JumpOut = 0;
-		if(func == 0) begin
+		if(func[3:2] == 0) begin
 			ALUop = 1;
 		end
-		if(func == 1) begin
+		if(func[3:2] == 1) begin
 			ALUop = 5;
 		end
-		if(func == 2) begin
+		if(func[3:2] == 2) begin
 			ALUop = 6;
 		end
-		if(func == 3) begin
+		if(func[3:2] == 3) begin
 			ALUop = 7;
 		end
 	 end
