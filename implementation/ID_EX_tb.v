@@ -85,22 +85,38 @@ module ID_EX_tb();
   initial begin
     CLK = 0;
     Reset = 1;
+    RegWrite = 1;
+
     // Initialize all regs with corresponding values
-    IRegWrite = 1'b0;
-    IALUSrc = 1'b0;
-    IALUOP = 3'b000;
-    IMemWrite = 1'b0;
-    IMemRead = 1'b0;
-    IRegStore = 1'b0;
-    IPCP2 = 16'h0000;
-    I1stArg = 16'h0000;
-    I2ndArg = 16'h0000;
-    I3rdArg = 16'h0000;
-    IImm = 16'h0000;
-    IRs1 = 16'h0000;
-    IRs2 = 16'h0000;
-    IRd = 16'h0000;
-    RegWrite = 1'b0;
+    IRegWrite = 1'b1;
+    IALUSrc = 1'b1;
+    IALUOP = 3'b101;
+    IMemWrite = 1'b1;
+    IMemRead = 1'b1;
+    IRegStore = 1'b1;
+    IPCP2 = 16'hA5A5;
+    I1stArg = 16'h1234;
+    I2ndArg = 16'h5678;
+    I3rdArg = 16'h9ABC;
+    IImm = 16'hFEDC;
+    IRs1 = 16'h2468;
+    IRs2 = 16'hBEEF;
+    IRd = 16'hC0DE;
+
+    #(2*HALF_PERIOD);
+
+    if (|ORegWrite || |OALUSrc || |OALUOP || |OMemWrite || |OMemRead || |ORegStore || |OPCP2 || |O1stArg || |O2ndArg || |O3rdArg || |OImm || |ORs1 || |ORs2 || |ORd) begin
+        $display("Test 1 Error: Reset not working");
+    end
+
+    Reset = 0;
+
+    #(2*HALF_PERIOD);
+
+    if (ORegWrite != IRegWrite || OALUSrc != IALUSrc || OALUOP != IALUOP || OMemWrite !== IMemWrite || OMemRead !== IMemRead || ORegStore !== IRegStore || OPCP2 !== IPCP2 || O1stArg !== I1stArg || O2ndArg !== I2ndArg || O3rdArg !== I3rdArg || OImm !== IImm || ORs1 !== IRs1 || ORs2 !== IRs2 || ORd !== IRd) begin
+        $display("Test 2 Error: Registers not writing.");
+    end
+
 
     $display("ID_EX Tests finished");
   end

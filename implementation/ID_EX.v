@@ -36,20 +36,20 @@ always @ (posedge(CLK))
 begin
     if (Reset != 1) begin
         if(RegWrite == 1) begin
-            ORegWrite = IRegWrite;
-            OALUSrc = IALUSrc;
-            OALUOP = IALUOP;
-            OMemWrite = IMemWrite;
-            OMemRead = IMemRead;
-            ORegStore = IRegStore;
-            OPCP2 = IPCP2;
-            O1stArg = I1stArg;
-            O2ndArg = I2ndArg;
-            O3rdArg = I3rdArg;
-            OImm = IImm;
-            ORs1 = IRs1;
-            ORs2 = IRs2;
-            ORd = IRd;
+            ORegWrite <= IRegWrite;
+            OALUSrc <= IALUSrc;
+            OALUOP <= IALUOP;
+            OMemWrite <= IMemWrite;
+            OMemRead <= IMemRead;
+            ORegStore <= IRegStore;
+            OPCP2 <= IPCP2;
+            O1stArg <= I1stArg;
+            O2ndArg <= I2ndArg;
+            O3rdArg <= I3rdArg;
+            OImm <= IImm;
+            ORs1 <= IRs1;
+            ORs2 <= IRs2;
+            ORd <= IRd;
         end
     end else begin 
             ORegWrite = 0;
