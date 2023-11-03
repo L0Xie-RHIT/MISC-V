@@ -52,3 +52,6 @@ Imm_Gen fix, tb in progress. Plans for branch predictor.
 
 Tuesday,Oct31
 Imm_Gen tests and more fix
+
+Wednesday, Nov1
+Imm_Gen fixes. Realied my understanding of bit position so far is all wrong. Numbers hard.

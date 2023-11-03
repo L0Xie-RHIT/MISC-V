@@ -54,6 +54,7 @@ initial begin
 
 	opcode = 0;
 	func = 0;
+	reset = 0;
 	
 	#(2*HALF_PERIOD);
 			
@@ -194,8 +195,18 @@ initial begin
 		failures = failures + 1;
 		$display("Jump Out failure");
 	end
+
+	#(2*HALF_PERIOD);
 	
+	reset = 1;
 	
+	#(2*HALF_PERIOD);
+
+	// Testing Reset
+	if(ALUsrc != 0 || RegStore != 0 || RegWrite != 0 || MemRead != 0 || MemWrite != 0 || Branch != 0 || JumpOut != 0 || ALUop != 0) begin
+		failures = failures + 1;
+		$display("Reset failure");
+	end
 	
 	
 	$display("TESTS COMPLETE. \n Failures = %d", failures);
