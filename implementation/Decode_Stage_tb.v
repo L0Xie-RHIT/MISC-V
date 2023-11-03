@@ -4,7 +4,7 @@ module Decode_Stage_tb();
   reg [15:0] IPCP2;
   reg [15:0] pc_in;
   reg [15:0] ir_in;
-  reg [15:0] loadAddr;
+  reg [3:0] loadAddr;
   reg [15:0] loadData;
   reg rf_write;
   reg reset;
@@ -57,23 +57,173 @@ module Decode_Stage_tb();
 
   initial begin 
     clk = 0;
-    repeat (20) begin
+    forever begin
       #(HALF_PERIOD);
       clk = ~clk;
     end
   end
 
   initial begin
-    clk = 0;
     reset = 1;
+    rf_write = 0;
+
+    #(4*HALF_PERIOD);
+
+    if ( RegWrite != 0
+      ALUSrc != 0
+      ALUOp != 0
+      MemWrite != 0
+      MemRead != 0
+      RegStore != 0
+      OPCP2 != 0
+      1stArg != 0
+      2ndArg != 0
+      3rdArg != 0
+      Imm != 0
+      Rs1 != 0
+      Rs2 != 0
+      Rd != 0
+      new_pc != 0
+      jump != 0) begin
+      $display("The Block does not initialize. No other tests will be run.");
+		  $stop;
+    end
+
+    reset = 0;
+    #(4*HALF_PERIOD);
+
+    IPCP2 = $random;
+    pc_in = $random;
+    ir_in = $random;
+    loadAddr = $random;
+    loadData = $random;
+    reset = 0;
+
+    if ( RegWrite != 0
+      ALUSrc != 0
+      ALUOp != 0
+      MemWrite != 0
+      MemRead != 0
+      RegStore != 0
+      OPCP2 != 0
+      1stArg != 0
+      2ndArg != 0
+      3rdArg != 0
+      Imm != 0
+      Rs1 != 0
+      Rs2 != 0
+      Rd != 0
+      new_pc != 0
+      jump != 0) begin
+      $display("The Block writes when it should not. No further testing will be done.");
+		  $stop;
+    end
+
     rf_write = 1;
 
-    IPCP2 = 16'h1234; // Initialize input values as needed
-    pc_in = 16'h5678;
-    ir_in = 16'h9abc;
-    loadAddr = 16'hdef0;
-    loadData = 16'h5678;
-    reset = 0;
+    // IPCP2 = ;
+    // pc_in = ;
+    // ir_in = ;
+    // loadAddr = ;
+    // loadData = ;
+    // #(2*HALF_PERIOD);
+
+    // if ( RegWrite !=  ||
+    //   ALUSrc !=  ||
+    //   ALUOp !=  || 
+    //   MemWrite !=  ||
+    //   MemRead !=  || 
+    //   RegStore !=  ||
+    //   OPCP2 !=  ||
+    //   1stArg !=  ||
+    //   2ndArg !=  ||
+    //   3rdArg !=  ||
+    //   Imm !=  ||
+    //   Rs1 !=  ||
+    //   Rs2 !=  ||
+    //   Rd !=  ||
+    //   new_pc !=  ||
+    //   jump != ) begin
+    //   $display("Error:");
+    // // end
+
+    IPCP2 = 200;
+    pc_in = 0;
+    ir_in = 0;
+    loadAddr = 0;
+    loadData = 0;
+    #(2*HALF_PERIOD);
+
+    if ( RegWrite != 0 ||
+      ALUSrc != 0 ||
+      ALUOp != 0 || 
+      MemWrite != 0 ||
+      MemRead != 0 || 
+      RegStore != 0 ||
+      OPCP2 != 200 ||
+      1stArg != 0 ||
+      2ndArg != 0 ||
+      3rdArg != 0 ||
+      Imm != 0 ||
+      Rs1 != 0 ||
+      Rs2 != 0 ||
+      Rd != 0 ||
+      new_pc != 0 ||
+      jump != 0) begin
+      $display("Error: PC + 2 does not propogate correctly.");
+    end
+
+    IPCP2 = 0;
+    pc_in = 13;
+    ir_in = 0;
+    loadAddr = 0;
+    loadData = 0;
+    #(2*HALF_PERIOD);
+
+    if ( RegWrite != 0 ||
+      ALUSrc != 0 ||
+      ALUOp != 0 ||
+      MemWrite != 0 ||
+      MemRead != 0 ||
+      RegStore != 0 ||
+      OPCP2 != 0 ||
+      1stArg != 0 ||
+      2ndArg != 0 ||
+      3rdArg != 0 ||
+      Imm != 0 ||
+      Rs1 != 0 ||
+      Rs2 != 0 ||
+      Rd != 0 ||
+      new_pc != 13 ||
+      jump != 0) begin
+      $display("Error: PC in does not add correctly.");
+    end
+
+    // IPCP2 = 0;
+    // pc_in = 0;
+    // ir_in = 0;
+    // loadAddr = 0;
+    // loadData = 0;
+    // #(2*HALF_PERIOD);
+
+    // if ( RegWrite != 0 ||
+    //   ALUSrc != 0 ||
+    //   ALUOp != 0 ||
+    //   MemWrite != 0 ||
+    //   MemRead != 0 ||
+    //   RegStore != 0 ||
+    //   OPCP2 != 0 ||
+    //   1stArg != 0 ||
+    //   2ndArg != 0 ||
+    //   3rdArg != 0 ||
+    //   Imm != 0 ||
+    //   Rs1 != 0 ||
+    //   Rs2 != 0 ||
+    //   Rd != 0 ||
+    //   new_pc != 0 ||
+    //   jump != 0) begin
+    //   $display("Error: PC + 2 does not propogate corectly.");
+    // end
 
     $display("Decode_Stage Tests finished");
   end
