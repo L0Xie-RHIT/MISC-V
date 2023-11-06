@@ -9,6 +9,8 @@ module Memory_Stage(
     input [15:0] IALUResult,
     input [15:0] thirdArg,
     input [2:0] rdMem,
+    input [15:0] loadData,
+    input DataInSelect,
     output ORegWrite,
     output ORegStore,
     output [15:0] OPCP2,
@@ -46,10 +48,19 @@ EX_MEM EXMEMRB(
 
 assign OALUResult = ALUResultCon;
 
+wire [15:0] dataInCon;
+
+mux16b2 dataInMux(
+    .a(DataInSelect),
+    .b(thirdArgCon),
+    .s(DataInSelect),
+    .r(dataInCon)
+)
+
 wire [15:0] StoreMemCon;
 
 Memory_Data mem (
-	.data(thirdArgCon),
+	.data(dataInCon),
 	.addr(ALUResultCon),
 	.we(MemWriteCon),
 	.clk(clk),

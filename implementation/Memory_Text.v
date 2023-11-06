@@ -1,6 +1,6 @@
 // Wrapper module for raw memory
 // This Memory represents the text memory.
-// Only bits 0-10 can be used.
+// Only bits 0-9 can be used.
 module Memory_Text
 (
 	input [15:0] data,
@@ -10,7 +10,7 @@ module Memory_Text
 );
 
 wire[9:0] modified_addr;
-assign modified_addr = {0, addr[9:1]};
+assign modified_addr = {0, addr[8:1]};
 
 	raw_memory mem(
 		.data(data),

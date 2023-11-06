@@ -82,8 +82,8 @@ initial begin
 		$display("Test 4 failed - Data Memory upper bound error");
 	end
 
-	$stop;
 	$display("Mem Tests complete");
+	$stop;
 end
 	  
 	  
