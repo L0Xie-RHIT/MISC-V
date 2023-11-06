@@ -4,6 +4,10 @@ module Decode_Stage(
     input [15:0] ir_in,
     input [3:0] loadAddr,
     input [15:0] loadData,
+    input [0:0] comparatorMux1Control,
+    input [0:0] comparatorMux2Control,
+    input [15:0] comparatorMux1Forward,
+    input [15:0] comparatorMux2Forward,
     input rf_write,
     input reset,
     input clk,
@@ -89,12 +93,29 @@ Imm_Gen genie(
 
 assign Imm = immCon;
 
+wire [15:0] comparatorData1;
+wire [15:0] comparatorData2;
+
+mux16b2 comparatorMux1(
+    .a(comparatorMux1Forward),
+    .b(arg1),
+    .s(comparatorMux1Control),
+    .r(comparatorData1)
+);
+
+mux16b2 comparatorMux2(
+    .a(comparatorMux2Forward),
+    .b(arg2),
+    .s(comparatorMux2Control),
+    .r(comparatorData2)
+);
+
 wire [15:0] pc_added;
 wire branchCompCon;
 
 Comparator comp(
-    .FirstInput(arg1),
-    .SecondInput(arg2),
+    .FirstInput(comparatorData1),
+    .SecondInput(comparatorData2),
     .CLK(clk),
     .OPCode(ir[2:0]),
     .BranchComparison(branchCompCon)
