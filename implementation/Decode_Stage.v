@@ -17,9 +17,9 @@ module Decode_Stage(
     output [0:0] MemRead,
     output [0:0] RegStore,
     output [15:0] OPCP2,
-    output [15:0] 1stArg,
-    output [15:0] 2ndArg,
-    output [15:0] 3rdArg,
+    output [15:0] Arg1,
+    output [15:0] Arg2,
+    output [15:0] Arg3,
     output [15:0] Imm,
     output [15:0] Rs1,
     output [15:0] Rs2,
@@ -132,5 +132,8 @@ mux16b2 jumpMux(
     .r(new_pc)
 );
 
+assign Arg1 = arg1;
+assign Arg2 = arg2;
+assign Arg3 = arg3;
 
 endmodule
