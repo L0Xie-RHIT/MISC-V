@@ -6,8 +6,7 @@ module Decode_Stage(
     input [15:0] loadData,
     input [0:0] comparatorMux1Control,
     input [0:0] comparatorMux2Control,
-    input [15:0] comparatorMux1Forward,
-    input [15:0] comparatorMux2Forward,
+    input [15:0] comparatorMuxForward,
     input rf_write,
     input reset,
     input clk,
@@ -97,7 +96,7 @@ wire [15:0] comparatorData1;
 wire [15:0] comparatorData2;
 
 mux16b2 comparatorMux1(
-    .a(comparatorMux1Forward),
+    .a(comparatorMuxForward),
     .b(arg1),
     .s(comparatorMux1Control),
     .r(comparatorData1)
