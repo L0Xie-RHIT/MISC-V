@@ -9,9 +9,9 @@ module Forward(
 	output reg [1:0] fwd1EX,
 	output reg [1:0] fwd2EX,
 	output reg [0:0] fwd3EX,
-	output reg [1:0] Bfwd1,
-	output reg [1:0] Bfwd2,
-	output reg [1:0] fwdMEM
+	output reg [0:0] Bfwd1,
+	output reg [0:0] Bfwd2,
+	output reg [0:0] fwdMEM
 );
 
 	always @(*) begin
