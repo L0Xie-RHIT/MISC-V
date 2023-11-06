@@ -3,28 +3,38 @@
 module Forward_tb();
 
 //inputs
-reg [2:0] rs1test;
-reg [2:0] rs2test;
-reg [2:0] rdtest;
+reg [2:0] rs1EXtest;
+reg [2:0] rs2EXtest;
+reg [2:0] rdEXtest;
 reg [2:0] rdMEMtest;
 reg [2:0] rdWBtest;
+reg [2:0] rs1test;
+reg [2:0] rs2test;
 reg [0:0] clock;
 
 //outputs
-wire [1:0] fwd1test;
-wire [1:0] fwd2test;
-wire [0:0] fwd3test;
+wire [1:0] fwd1EXtest;
+wire [1:0] fwd2EXtest;
+wire [0:0] fwd3EXtest;
+wire [0:0] Bfwd1test;
+wire [0:0] Bfwd2test;
+wire [0:0] fwdMEMtest;
+
 
 Forward Forward_uut(
-	.rs1(rs1test),
-	.rs2(rs2test),
-	.rd(rdtest),
+	.rs1EX(rs1EXtest),
+	.rs2EX(rs2EXtest),
+	.rdEX(rdEXtest),
 	.rdMEM(rdMEMtest),
 	.rdWB(rdWBtest),
-	.fwd1(fwd1test),
-	.fwd2(fwd2test),
-	.fwd3(fwd3test),
-	.clk(clock)
+	.rs1(rs1test),
+	.rs2(rs2test),
+	.fwd1EX(fwd1EXtest),
+	.fwd2EX(fwd2EXtest),
+	.fwd3EX(fwd3EXtest),
+	.Bfwd1(Bfwd1test),
+	.Bfwd2(Bfwd2test),
+	.fwdMEM(fwdMEMtest)
 );
 
 //clockwork
@@ -45,9 +55,11 @@ initial begin
 //Testing initilization
 	$display("Testing inilitilization.");
 	
+	rs1EXtest = 0;
+	rs2EXtest = 0;
 	rs1test = 0;
 	rs2test = 0;
-	rdtest = 0;
+	rdEXtest = 0;
 	rdMEMtest = 0;
 	rdWBtest = 0;
 	
@@ -58,62 +70,111 @@ initial begin
 			repeat (8) begin
 				repeat (8) begin
 					repeat (8) begin
-					#(2*HALF_PERIOD);
-					if (rs1test == rdMEMtest) begin
-						if (fwd1test != 0) begin
-							failures = failures + 1;
-							$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1test, rs2test, rdtest, rdMEMtest, rdWBtest, fwd1test);
+						repeat (8) begin
+							repeat (8) begin
+								#(2*HALF_PERIOD);
+								if (rs1EXtest == rdMEMtest) begin
+									if (fwd1EXtest != 0) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								
+								if (rs1EXtest == rdWBtest && rs1EXtest != rdMEMtest) begin
+									if (fwd1EXtest != 1) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								
+								if (rs1EXtest != rdMEMtest && rs1EXtest != rdWBtest) begin
+									if (fwd1EXtest != 2) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								
+								if (rs2EXtest == rdMEMtest) begin
+									if (fwd2EXtest != 0) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								
+								if (rs2EXtest == rdWBtest && rs2EXtest != rdMEMtest) begin
+									if (fwd2EXtest != 1) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								
+								if (rs2EXtest != rdMEMtest && rs2EXtest != rdWBtest) begin
+									if (fwd2EXtest != 2) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								if (rdEXtest == rdWBtest) begin
+									if (fwd3EXtest != 0) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								if (rdEXtest != rdWBtest) begin
+									if (fwd3EXtest != 1) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								if (rdMEMtest == rdWBtest) begin
+									if (fwdMEMtest != 0) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								if (rdEXtest != rdWBtest) begin
+									if (fwd3EXtest != 1) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								if (rs1test == rdMEMtest) begin
+									if (Bfwd1test != 0) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								if (rs1test != rdMEMtest) begin
+									if (Bfwd1test != 1) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								if (rs2test == rdMEMtest) begin
+									if (Bfwd2test != 0) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+								if (rs2test != rdMEMtest) begin
+									if (Bfwd2test != 1) begin
+										failures = failures + 1;
+										$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1EXtest, rs2EXtest, rdEXtest, rdMEMtest, rdWBtest, fwd1EXtest);
+									end
+								end
+							rs1test = rs1test + 1;
+							end
+							
+						rs2test = rs2test + 1;
 						end
+						
+					rs1EXtest = rs1EXtest + 1;
 					end
 					
-					if (rs1test == rdWBtest && rs1test != rdMEMtest) begin
-						if (fwd1test != 1) begin
-							failures = failures + 1;
-							$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1test, rs2test, rdtest, rdMEMtest, rdWBtest, fwd1test);
-						end
-					end
-					
-					if (rs1test != rdMEMtest && rs1test != rdWBtest) begin
-						if (fwd1test != 2) begin
-							failures = failures + 1;
-							$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1test, rs2test, rdtest, rdMEMtest, rdWBtest, fwd1test);
-						end
-					end
-					
-					if (rs2test == rdMEMtest) begin
-						if (fwd2test != 0) begin
-							failures = failures + 1;
-							$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1test, rs2test, rdtest, rdMEMtest, rdWBtest, fwd1test);
-						end
-					end
-					
-					if (rs2test == rdWBtest && rs2test != rdMEMtest) begin
-						if (fwd2test != 1) begin
-							failures = failures + 1;
-							$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1test, rs2test, rdtest, rdMEMtest, rdWBtest, fwd1test);
-						end
-					end
-					
-					if (rs2test != rdMEMtest && rs2test != rdWBtest) begin
-						if (fwd2test != 2) begin
-							failures = failures + 1;
-							$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1test, rs2test, rdtest, rdMEMtest, rdWBtest, fwd1test);
-						end
-					end
-					if (rdMEMtest == rdWBtest) begin
-						if (fwd3test != 0) begin
-							failures = failures + 1;
-							$display("Fail here: rs1: %d, rs2: %d, rd: %d, rdMEM: %d, rdWB: %d, fwd1: %d", rs1test, rs2test, rdtest, rdMEMtest, rdWBtest, fwd1test);
-						end
-					end
-					
-					rs1test = rs1test + 1;
-					end
-					
-				rs2test = rs2test + 1;
+				rs2EXtest = rs2EXtest + 1;
 				end
 				
-			rdtest = rdtest + 1;
+			rdEXtest = rdEXtest + 1;
 			end
 			
 		rdMEMtest = rdMEMtest + 1;
