@@ -15,8 +15,9 @@ module Execute_Stage(
     input [15:0] IRd,
     input [15:0] ALUResultMEM,
     input [15:0] loadDataWB,
-    input [1:0] mux1select,
-    input [1:0] mux2select,
+    input [1:0] muxFwd1select,
+    input [1:0] muxFwd2select,
+    input [0:0] muxFwd3select,
     input reset,
     input clk,
     output ORegWrite,
@@ -35,6 +36,7 @@ wire ALUSrcCon;
 wire [2:0] ALUOpCon;
 wire [15:0] arg1;
 wire [15:0] arg2;
+wire [15:0] arg3;
 wire [15:0] immCon;
 
 ID_EX IDEXRB (
@@ -64,7 +66,7 @@ ID_EX IDEXRB (
     .OPCP2(OPCP2),
     .O1stArg(arg1),
     .O2ndArg(arg2),
-    .O3rdArg(O3rdArg),
+    .O3rdArg(arg3),
     .OImm(immCon),
     .ORs1(ORs1),
     .ORs2(ORs2),
@@ -79,7 +81,7 @@ mux16b4 arg1mux(
     .b(loadDataWB),
     .c(arg1),
     .d(0),
-    .s(mux1select),
+    .s(muxFwd1select),
     .r(arg1MuxCon)
 );
 
@@ -88,8 +90,15 @@ mux16b4 arg2mux(
     .b(loadDataWB),
     .c(arg2),
     .d(0),
-    .s(mux2select),
+    .s(muxFwd2select),
     .r(arg2MuxCon)
+);
+
+mux16b2 fwd3rdargData(
+    .a(loadd),
+    .b(arg3),
+    .s(muxFwd3select),
+    .r(O3rdArg)
 );
 
 wire [15:0] ALUIn2;
