@@ -4,11 +4,11 @@ module Write_Stage_tb();
     reg reset;
     reg CLK;
     reg RegWrite;
-    reg RegStore;
+    reg [1:0] RegStore;
+    reg [15:0] IPCP2;
     reg [15:0] ALUResult;
     reg [15:0] StoreMem;
     reg [2:0] rdWB;
-
     wire [15:0] loadData;
     wire [2:0] loadAddr;
     wire regWriteOut;
@@ -18,6 +18,7 @@ module Write_Stage_tb();
         .clk(CLK),
         .RegWrite(RegWrite),
         .RegStore(RegStore),
+        .IPCP2(IPCP2),
         .ALUResult(ALUResult),
         .StoreMem(StoreMem),
         .rdWB(rdWB),
@@ -43,6 +44,7 @@ module Write_Stage_tb();
         RegStore = 1;
         ALUResult = 'hAAAA;
         StoreMem = 'hBBBB;
+        IPCP2 = 'hCCCC;
         rdWB = 'b101;
 
         #(2*HALF_PERIOD);
