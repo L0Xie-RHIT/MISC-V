@@ -9,7 +9,7 @@ module Memory_Text
 	output [15:0] q
 );
 
-wire[9:0] modified_addr;
+wire[8:0] modified_addr;
 assign modified_addr = {1'b0, addr[8:1]};
 
 	raw_memory mem(
