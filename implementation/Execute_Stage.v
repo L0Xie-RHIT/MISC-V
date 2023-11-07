@@ -29,7 +29,7 @@ module Execute_Stage(
     output [15:0] O3rdArg,
     output [15:0] ORs1,
     output [15:0] ORs2,
-    output [15:0] ORd,
+    output [15:0] ORd
 );
 
 wire ALUSrcCon;
