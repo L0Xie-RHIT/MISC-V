@@ -28,8 +28,8 @@ module Decode_Stage(
     output [0:0] jump
 );
 
-wire [15:0] pc,
-wire [15:0] ir,
+wire [15:0] pc;
+wire [15:0] ir;
 
 IF_ID IFIDRB(
     .IPCP2(IPCP2),
@@ -109,7 +109,8 @@ mux16b2 comparatorMux2(
     .r(comparatorData2)
 );
 
-wire [15:0] pc_added;
+reg [15:0] pc_added;
+
 wire branchCompCon;
 
 Comparator comp(
@@ -120,9 +121,9 @@ Comparator comp(
     .BranchComparison(branchCompCon)
 );
 
+assign jump = BranchCon && branchCompCon;
 always @ * begin
-    pc_added <= pc + immCon;
-    jump <= BranchCon && branchCompCon;
+    pc_added = pc + immCon;
 end
 
 mux16b2 jumpMux(
