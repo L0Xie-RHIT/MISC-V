@@ -55,7 +55,7 @@ mux16b2 dataInMux(
     .b(thirdArgCon),
     .s(DataInSelect),
     .r(dataInCon)
-)
+);
 
 wire [15:0] StoreMemCon;
 
