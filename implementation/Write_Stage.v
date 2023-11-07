@@ -15,7 +15,7 @@ module Write_Stage(
 wire [15:0] StoreMemCon;
 wire [15:0] ALUResultCon;
 wire [1:0] RegStoreCon;
-wire PCP2Con;
+wire [15:0] PCP2Con;
 
 
 MEM_WB MEMWBRB(
@@ -40,7 +40,7 @@ mux16b4 RegStoreMux(
     .a(StoreMemCon),
     .b(ALUResultCon),
     .c(PCP2Con),
-    .d(0),
+    .d(16'b0),
     .s(RegStoreCon),
     .r(loadData)
 );

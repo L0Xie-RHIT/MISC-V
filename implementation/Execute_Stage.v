@@ -4,15 +4,15 @@ module Execute_Stage(
     input [2:0] IALUOp,
     input IMemWrite,
     input IMemRead,
-    input IRegStore,
-    input [15:0] IOPCP2,
+    input [1:0] IRegStore,
+    input [15:0] IPCP2,
     input [15:0] I1stArg,
     input [15:0] I2ndArg,
     input [15:0] I3rdArg,
     input [15:0] Imm,
-    input [15:0] IRs1,
-    input [15:0] IRs2,
-    input [15:0] IRd,
+    input [2:0] IRs1,
+    input [2:0] IRs2,
+    input [2:0] IRd,
     input [15:0] ALUResultMEM,
     input [15:0] loadDataWB,
     input [1:0] muxFwd1select,
@@ -21,15 +21,15 @@ module Execute_Stage(
     input reset,
     input clk,
     output ORegWrite,
-    output ORegStore,
+    output [1:0] ORegStore,
     output OMemWrite,
     output OMemRead,
     output [15:0] OPCP2,
     output [15:0] OALUResult,
     output [15:0] O3rdArg,
-    output [15:0] ORs1,
-    output [15:0] ORs2,
-    output [15:0] ORd
+    output [2:0] ORs1,
+    output [2:0] ORs2,
+    output [2:0] ORd
 );
 
 wire ALUSrcCon;
@@ -42,7 +42,7 @@ wire [15:0] immCon;
 ID_EX IDEXRB (
     .IRegWrite(IRegWrite),
     .IALUSrc(IALUSrc),
-    .IALUOP(IALUOP),
+    .IALUOP(IALUOp),
     .IMemWrite(IMemWrite),
     .IMemRead(IMemRead),
     .IRegStore(IRegStore),
@@ -50,7 +50,7 @@ ID_EX IDEXRB (
     .I1stArg(I1stArg),
     .I2ndArg(I2ndArg),
     .I3rdArg(I3rdArg),
-    .IImm(IImm),
+    .IImm(Imm),
     .IRs1(IRs1),
     .IRs2(IRs2),
     .IRd(IRd),
@@ -58,7 +58,7 @@ ID_EX IDEXRB (
     .Reset(reset),
     .RegWrite(RegWrite),
     .ORegWrite(ORegWrite),
-    .OALUSrc(ALUOpCon),
+    .OALUSrc(OALUSrc),
     .OALUOP(ALUOpCon),
     .OMemWrite(OMemWrite),
     .OMemRead(OMemRead),
@@ -80,7 +80,7 @@ mux16b4 arg1mux(
     .a(ALUResultMEM),
     .b(loadDataWB),
     .c(arg1),
-    .d(0),
+    .d(16'b0),
     .s(muxFwd1select),
     .r(arg1MuxCon)
 );
@@ -89,13 +89,13 @@ mux16b4 arg2mux(
     .a(ALUResultMEM),
     .b(loadDataWB),
     .c(arg2),
-    .d(0),
+    .d(16'b0),
     .s(muxFwd2select),
     .r(arg2MuxCon)
 );
 
 mux16b2 fwd3rdargData(
-    .a(loadd),
+    .a(loadDataWB),
     .b(arg3),
     .s(muxFwd3select),
     .r(O3rdArg)

@@ -2,7 +2,7 @@ module Memory_Stage(
     input reset,
     input clk,
     input IRegWrite,
-    input IRegStore,
+    input [1:0] IRegStore,
     input MemWrite,
     input MemRead,
     input [15:0] IPCP2,
@@ -12,7 +12,7 @@ module Memory_Stage(
     input [15:0] loadData,
     input DataInSelect,
     output ORegWrite,
-    output ORegStore,
+    output [1:0] ORegStore,
     output [15:0] OPCP2,
     output [15:0] OALUResult,
     output [15:0] StoreMem,
@@ -51,7 +51,7 @@ assign OALUResult = ALUResultCon;
 wire [15:0] dataInCon;
 
 mux16b2 dataInMux(
-    .a(DataInSelect),
+    .a(loadData),
     .b(thirdArgCon),
     .s(DataInSelect),
     .r(dataInCon)

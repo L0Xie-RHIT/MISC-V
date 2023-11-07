@@ -2,22 +2,22 @@ module EX_MEM(
     input [0:0] IRegWrite,
     input [0:0] IMemWrite,
     input [0:0] IMemRead,
-    input [0:0] IRegStore,
+    input [1:0] IRegStore,
     input [15:0] IPCP2,
     input [15:0] IALUResult,
     input [15:0] I3rdArg,
-    input [15:0] IRd,
+    input [2:0] IRd,
     input CLK,
     input Reset,
     input RegWrite,
     output reg[0:0] ORegWrite,
     output reg[0:0] OMemWrite,
     output reg[0:0] OMemRead,
-    output reg[0:0] ORegStore,
+    output reg[1:0] ORegStore,
     output reg[15:0] OPCP2,
     output reg[15:0] OALUResult,
     output reg[15:0] O3rdArg,
-    output reg[15:0] ORd
+    output reg[2:0] ORd
 );
 
 always @ (posedge(CLK))

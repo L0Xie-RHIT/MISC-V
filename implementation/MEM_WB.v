@@ -1,6 +1,6 @@
 module MEM_WB(
     input [0:0] IRegWrite,
-    input [0:0] IRegStore,
+    input [1:0] IRegStore,
     input [15:0] IPCP2,
     input [15:0] IALUResult,
     input [15:0] IStoreMem,
@@ -9,7 +9,7 @@ module MEM_WB(
     input Reset,
     input RegWrite,
     output reg[0:0] ORegWrite,
-    output reg[0:0] ORegStore,
+    output reg[1:0] ORegStore,
     output reg[15:0] OPCP2,
     output reg[15:0] OALUResult,
     output reg[15:0] OStoreMem,

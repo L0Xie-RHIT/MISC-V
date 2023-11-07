@@ -2,7 +2,7 @@ module Decode_Stage(
     input [15:0] IPCP2,
     input [15:0] pc_in,
     input [15:0] ir_in,
-    input [3:0] loadAddr,
+    input [2:0] loadAddr,
     input [15:0] loadData,
     input [0:0] comparatorMux1Control,
     input [0:0] comparatorMux2Control,
@@ -15,15 +15,15 @@ module Decode_Stage(
     output [2:0] ALUOp,
     output [0:0] MemWrite,
     output [0:0] MemRead,
-    output [0:0] RegStore,
+    output [1:0] RegStore,
     output [15:0] OPCP2,
     output [15:0] Arg1,
     output [15:0] Arg2,
     output [15:0] Arg3,
     output [15:0] Imm,
-    output [15:0] Rs1,
-    output [15:0] Rs2,
-    output [15:0] Rd,
+    output [2:0] Rs1,
+    output [2:0] Rs2,
+    output [2:0] Rd,
     output [15:0] new_pc,
     output [0:0] jump
 );
@@ -56,8 +56,8 @@ Control CUnit(
     .reset(reset),
     .CLK(clk),
     .RegWrite(rf_write),
-    .ALUSrc(ALUSrc),
-    .ALUOp(ALUOp),
+    .ALUsrc(ALUSrc),
+    .ALUop(ALUOp),
     .MemWrite(MemWrite),
     .MemRead(MemRead),
     .RegStore(RegStore),
@@ -103,7 +103,7 @@ mux16b2 comparatorMux1(
 );
 
 mux16b2 comparatorMux2(
-    .a(comparatorMux2Forward),
+    .a(comparatorMuxForward),
     .b(arg2),
     .s(comparatorMux2Control),
     .r(comparatorData2)

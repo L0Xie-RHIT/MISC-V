@@ -1,6 +1,37 @@
 module CPU(
     input [0:0] clk,
-    input [0:0] reset
+    input [0:0] reset,
+    output [15:0] OFnewPCCon,
+    output [15:0] OFPCCon,
+    output [15:0] OirCon,
+    output OjumpCon,
+    output [15:0] OnewPCInCon,
+    output [2:0] OloadAddrWB,
+    output [15:0] OloadDataWB,
+    output OrfWriteWBCon,
+    output OORegWriteEX,
+    output [1:0] OORegStoreEX,
+    output OOMemWriteEX,
+    output OOMemReadEX,
+    output [15:0] OOPCP2EX,
+    output [15:0] OOALUResultEX,
+    output [15:0] OO3rdArgEX,
+    output [2:0] OORs1EX,
+    output [2:0] OORs2EX,
+    output [2:0] OORdEX,
+    output OORegWriteMEM,
+    output [1:0] OORegStoreMEM,
+    output [15:0] OOPCP2MEM,
+    output [15:0] OOALUResultMEM,
+    output [15:0] OStoreMemMEM,
+    output [2:0] OrdMEM,
+    output ORegWriteWB,
+    output [1:0] Ofwd1EX,
+    output [1:0] Ofwd2EX,
+    output [0:0] Ofwd3EX,
+    output [0:0] OBfwd1,
+    output [0:0] OBfwd2,
+    output [0:0] OfwdMEM
 );
 
 // if id components
@@ -14,7 +45,7 @@ wire jumpCon;
 wire [15:0] newPCInCon;
 
 // id input components
-wire [15:0] loadAddrWB;
+wire [2:0] loadAddrWB;
 wire [15:0] loadDataWB;
 wire rfWriteWBCon;
 
@@ -24,35 +55,35 @@ wire ALUSrcDE;
 wire [2:0] ALUOpDE;
 wire [0:0] MemWriteDE;
 wire [0:0] MemReadDE;
-wire [0:0] RegStoreDE;
+wire [1:0] RegStoreDE;
 wire [15:0] OPCP2DE;
 wire [15:0] Arg1DE;
 wire [15:0] Arg2DE;
 wire [15:0] Arg3DE;
 wire [15:0] ImmDE;
-wire [15:0] Rs1DE;
-wire [15:0] Rs2DE;
-wire [15:0] RdDE;
+wire [2:0] Rs1DE;
+wire [2:0] Rs2DE;
+wire [2:0] RdDE;
 wire [15:0] new_pcDE;
 wire [0:0] jumpDE;
 
 //Execute stage components
 
 wire ORegWriteEX;
-wire ORegStoreEX;
+wire [1:0] ORegStoreEX;
 wire OMemWriteEX;
 wire OMemReadEX;
 wire [15:0] OPCP2EX;
 wire [15:0] OALUResultEX;
 wire [15:0] O3rdArgEX;
-wire [15:0] ORs1EX;
-wire [15:0] ORs2EX;
-wire [15:0] ORdEX;
+wire [2:0] ORs1EX;
+wire [2:0] ORs2EX;
+wire [2:0] ORdEX;
 
 //Memory stage components
 
 wire ORegWriteMEM;
-wire ORegStoreMEM;
+wire [1:0] ORegStoreMEM;
 wire [15:0] OPCP2MEM;
 wire [15:0] OALUResultMEM;
 wire [15:0] StoreMemMEM;
@@ -89,7 +120,7 @@ Fetch_Stage fetch (
 );
 
 Decode_Stage DeStage (
-    .IPC2(FnewPCCon),
+    .IPCP2(FnewPCCon),
     .pc_in(FPCCon),
     .ir_in(irCon),
     .loadAddr(loadAddrWB), 
@@ -128,7 +159,7 @@ Execute_Stage EXStage (
     .IMemWrite(MemWriteDE),
     .IMemRead(MemReadDE),
     .IRegStore(RegStoreDE),
-    .IOPCP2(OPCP2DE),
+    .IPCP2(OPCP2DE),
     .I1stArg(Arg1DE),
     .I2ndArg(Arg2DE),
     .I3rdArg(Arg3DE),
@@ -211,5 +242,37 @@ Forward Forward_Unit (
     .Bfwd2(Bfwd2),
     .fwdMEM(fwdMEM)
 );
+
+assign OFnewPCCon = FnewPCCon;
+assign OFPCCon = FPCCon;
+assign OirCon = irCon;
+assign OjumpCon = jumpCon;
+assign OnewPCInCon = newPCInCon;
+assign OloadAddrWB = loadAddrWB;
+assign OloadDataWB = loadDataWB;
+assign OrfWriteWBCon = rfWriteWBCon;
+assign ORegWriteWB = RegWriteWB;
+assign OORegWriteEX = ORegWriteEX;
+assign OORegStoreEX = ORegStoreEX;
+assign OOMemWriteEX = OMemWriteEX;
+assign OOMemReadEX = OMemReadEX;
+assign OOPCP2EX = OPCP2EX;
+assign OOALUResultEX = OALUResultEX;
+assign OO3rdArgEX = O3rdArgEX;
+assign OORs1EX = ORs1EX;
+assign OORs2EX = ORs2EX;
+assign OORdEX = ORdEX;
+assign OORegWriteMEM = ORegWriteMEM;
+assign OORegStoreMEM = ORegStoreMEM;
+assign OOPCP2MEM = OPCP2MEM;
+assign OOALUResultMEM = OALUResultMEM;
+assign OStoreMemMEM = StoreMemMEM;
+assign OrdMEM = rdMEM;
+assign Ofwd1EX = fwd1EX;
+assign Ofwd2EX = fwd2EX;
+assign Ofwd3EX = fwd3EX;
+assign OBfwd1 = Bfwd1;
+assign OBfwd2 = Bfwd2;
+assign OfwdMEM = fwdMEM;
 
 endmodule
