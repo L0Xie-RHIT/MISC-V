@@ -1,37 +1,37 @@
 module CPU(
     input [0:0] clk,
-    input [0:0] reset,
-    output [15:0] OFnewPCCon,
-    output [15:0] OFPCCon,
-    output [15:0] OirCon,
-    output OjumpCon,
-    output [15:0] OnewPCInCon,
-    output [2:0] OloadAddrWB,
-    output [15:0] OloadDataWB,
-    output OrfWriteWBCon,
-    output OORegWriteEX,
-    output [1:0] OORegStoreEX,
-    output OOMemWriteEX,
-    output OOMemReadEX,
-    output [15:0] OOPCP2EX,
-    output [15:0] OOALUResultEX,
-    output [15:0] OO3rdArgEX,
-    output [2:0] OORs1EX,
-    output [2:0] OORs2EX,
-    output [2:0] OORdEX,
-    output OORegWriteMEM,
-    output [1:0] OORegStoreMEM,
-    output [15:0] OOPCP2MEM,
-    output [15:0] OOALUResultMEM,
-    output [15:0] OStoreMemMEM,
-    output [2:0] OrdMEM,
-    output ORegWriteWB,
-    output [1:0] Ofwd1EX,
-    output [1:0] Ofwd2EX,
-    output [0:0] Ofwd3EX,
-    output [0:0] OBfwd1,
-    output [0:0] OBfwd2,
-    output [0:0] OfwdMEM
+    input [0:0] reset
+//    output [15:0] OFnewPCCon,
+//    output [15:0] OFPCCon,
+//    output [15:0] OirCon,
+//    output OjumpCon,
+//    output [15:0] OnewPCInCon,
+//    output [2:0] OloadAddrWB,
+//    output [15:0] OloadDataWB,
+//    output OrfWriteWBCon,
+//    output OORegWriteEX,
+//    output [1:0] OORegStoreEX,
+//    output OOMemWriteEX,
+//    output OOMemReadEX,
+//    output [15:0] OOPCP2EX,
+//    output [15:0] OOALUResultEX,
+//    output [15:0] OO3rdArgEX,
+//    output [2:0] OORs1EX,
+//    output [2:0] OORs2EX,
+//    output [2:0] OORdEX,
+//    output OORegWriteMEM,
+//    output [1:0] OORegStoreMEM,
+//    output [15:0] OOPCP2MEM,
+//    output [15:0] OOALUResultMEM,
+//    output [15:0] OStoreMemMEM,
+//    output [2:0] OrdMEM,
+//    output ORegWriteWB,
+//    output [1:0] Ofwd1EX,
+//    output [1:0] Ofwd2EX,
+//    output [0:0] Ofwd3EX,
+//    output [0:0] OBfwd1,
+//    output [0:0] OBfwd2,
+//    output [0:0] OfwdMEM
 );
 
 // if id components
@@ -243,36 +243,36 @@ Forward Forward_Unit (
     .fwdMEM(fwdMEM)
 );
 
-assign OFnewPCCon = FnewPCCon;
-assign OFPCCon = FPCCon;
-assign OirCon = irCon;
-assign OjumpCon = jumpCon;
-assign OnewPCInCon = newPCInCon;
-assign OloadAddrWB = loadAddrWB;
-assign OloadDataWB = loadDataWB;
-assign OrfWriteWBCon = rfWriteWBCon;
-assign ORegWriteWB = RegWriteWB;
-assign OORegWriteEX = ORegWriteEX;
-assign OORegStoreEX = ORegStoreEX;
-assign OOMemWriteEX = OMemWriteEX;
-assign OOMemReadEX = OMemReadEX;
-assign OOPCP2EX = OPCP2EX;
-assign OOALUResultEX = OALUResultEX;
-assign OO3rdArgEX = O3rdArgEX;
-assign OORs1EX = ORs1EX;
-assign OORs2EX = ORs2EX;
-assign OORdEX = ORdEX;
-assign OORegWriteMEM = ORegWriteMEM;
-assign OORegStoreMEM = ORegStoreMEM;
-assign OOPCP2MEM = OPCP2MEM;
-assign OOALUResultMEM = OALUResultMEM;
-assign OStoreMemMEM = StoreMemMEM;
-assign OrdMEM = rdMEM;
-assign Ofwd1EX = fwd1EX;
-assign Ofwd2EX = fwd2EX;
-assign Ofwd3EX = fwd3EX;
-assign OBfwd1 = Bfwd1;
-assign OBfwd2 = Bfwd2;
-assign OfwdMEM = fwdMEM;
+//assign OFnewPCCon = FnewPCCon;
+//assign OFPCCon = FPCCon;
+//assign OirCon = irCon;
+//assign OjumpCon = jumpCon;
+//assign OnewPCInCon = newPCInCon;
+//assign OloadAddrWB = loadAddrWB;
+//assign OloadDataWB = loadDataWB;
+//assign OrfWriteWBCon = rfWriteWBCon;
+//assign ORegWriteWB = RegWriteWB;
+//assign OORegWriteEX = ORegWriteEX;
+//assign OORegStoreEX = ORegStoreEX;
+//assign OOMemWriteEX = OMemWriteEX;
+//assign OOMemReadEX = OMemReadEX;
+//assign OOPCP2EX = OPCP2EX;
+//assign OOALUResultEX = OALUResultEX;
+//assign OO3rdArgEX = O3rdArgEX;
+//assign OORs1EX = ORs1EX;
+//assign OORs2EX = ORs2EX;
+//assign OORdEX = ORdEX;
+//assign OORegWriteMEM = ORegWriteMEM;
+//assign OORegStoreMEM = ORegStoreMEM;
+//assign OOPCP2MEM = OPCP2MEM;
+//assign OOALUResultMEM = OALUResultMEM;
+//assign OStoreMemMEM = StoreMemMEM;
+//assign OrdMEM = rdMEM;
+//assign Ofwd1EX = fwd1EX;
+//assign Ofwd2EX = fwd2EX;
+//assign Ofwd3EX = fwd3EX;
+//assign OBfwd1 = Bfwd1;
+//assign OBfwd2 = Bfwd2;
+//assign OfwdMEM = fwdMEM;
 
 endmodule

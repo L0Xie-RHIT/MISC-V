@@ -6,6 +6,9 @@ module Decode_Stage_tb();
   reg [15:0] ir_in;
   reg [3:0] loadAddr;
   reg [15:0] loadData;
+  reg [0:0] comparatorMux1Control;
+  reg [0:0] comparatorMux2Control;
+  reg [15:0] comparatorMuxForward;
   reg rf_write;
   reg reset;
   reg clk;
@@ -16,13 +19,13 @@ module Decode_Stage_tb();
   wire [0:0] MemRead;
   wire [0:0] RegStore;
   wire [15:0] OPCP2;
-  wire [15:0] 1stArg;
-  wire [15:0] 2ndArg;
-  wire [15:0] 3rdArg;
+  wire [15:0] Ar1;
+  wire [15:0] Arg2;
+  wire [15:0] Arg3;
   wire [15:0] Imm;
-  wire [15:0] Rs1;
-  wire [15:0] Rs2;
-  wire [15:0] Rd;
+  wire [2:0] Rs1;
+  wire [2:0] Rs2;
+  wire [2:0] Rd;
   wire [15:0] new_pc;
   wire [0:0] jump;
 
@@ -32,6 +35,9 @@ module Decode_Stage_tb();
     .ir_in(ir_in),
     .loadAddr(loadAddr),
     .loadData(loadData),
+    .comparatorMux1Control(comparatorMux1Control),
+    .comparatorMux2Control(comparatorMux2Control),
+    .comparatorMuxForward(comparatorMuxForward),
     .rf_write(rf_write),
     .reset(reset),
     .clk(clk),
@@ -42,9 +48,9 @@ module Decode_Stage_tb();
     .MemRead(MemRead),
     .RegStore(RegStore),
     .OPCP2(OPCP2),
-    .1stArg(1stArg),
-    .2ndArg(2ndArg),
-    .3rdArg(3rdArg),
+    .Arg1(Arg1),
+    .Arg2(Arg2),
+    .Arg3(Arg3),
     .Imm(Imm),
     .Rs1(Rs1),
     .Rs2(Rs2),
@@ -69,21 +75,21 @@ module Decode_Stage_tb();
 
     #(4*HALF_PERIOD);
 
-    if ( RegWrite != 0
-      ALUSrc != 0
-      ALUOp != 0
-      MemWrite != 0
-      MemRead != 0
-      RegStore != 0
-      OPCP2 != 0
-      1stArg != 0
-      2ndArg != 0
-      3rdArg != 0
-      Imm != 0
-      Rs1 != 0
-      Rs2 != 0
-      Rd != 0
-      new_pc != 0
+    if ( RegWrite != 0 ||
+      ALUSrc != 0 ||
+      ALUOp != 0 ||
+      MemWrite != 0 ||
+      MemRead != 0 ||
+      RegStore != 0 ||
+      OPCP2 != 0 ||
+      Arg1 != 0 ||
+      Arg2 != 0 ||
+      Arg3 != 0 ||
+      Imm != 0 ||
+      Rs1 != 0 ||
+      Rs2 != 0 ||
+      Rd != 0 ||
+      new_pc != 0 ||
       jump != 0) begin
       $display("The Block does not initialize. No other tests will be run.");
 		  $stop;
@@ -99,21 +105,21 @@ module Decode_Stage_tb();
     loadData = $random;
     reset = 0;
 
-    if ( RegWrite != 0
-      ALUSrc != 0
-      ALUOp != 0
-      MemWrite != 0
-      MemRead != 0
-      RegStore != 0
-      OPCP2 != 0
-      1stArg != 0
-      2ndArg != 0
-      3rdArg != 0
-      Imm != 0
-      Rs1 != 0
-      Rs2 != 0
-      Rd != 0
-      new_pc != 0
+    if ( RegWrite != 0 ||
+      ALUSrc != 0 ||
+      ALUOp != 0 || 
+      MemWrite != 0 ||
+      MemRead != 0 ||
+      RegStore != 0 ||
+      OPCP2 != 0 || 
+      Arg1 != 0 ||
+      Arg2 != 0 ||
+      Arg3 != 0 ||
+      Imm != 0 ||
+      Rs1 != 0 ||
+      Rs2 != 0 ||
+      Rd != 0 ||
+      new_pc != 0 ||
       jump != 0) begin
       $display("The Block writes when it should not. No further testing will be done.");
 		  $stop;
@@ -135,9 +141,9 @@ module Decode_Stage_tb();
     //   MemRead !=  || 
     //   RegStore !=  ||
     //   OPCP2 !=  ||
-    //   1stArg !=  ||
-    //   2ndArg !=  ||
-    //   3rdArg !=  ||
+    //   Arg1 !=  ||
+    //   Arg2 !=  ||
+    //   Arg3 !=  ||
     //   Imm !=  ||
     //   Rs1 !=  ||
     //   Rs2 !=  ||
@@ -161,9 +167,9 @@ module Decode_Stage_tb();
       MemRead != 0 || 
       RegStore != 0 ||
       OPCP2 != 200 ||
-      1stArg != 0 ||
-      2ndArg != 0 ||
-      3rdArg != 0 ||
+      Arg1 != 0 ||
+      Arg2 != 0 ||
+      Arg3 != 0 ||
       Imm != 0 ||
       Rs1 != 0 ||
       Rs2 != 0 ||
@@ -187,9 +193,9 @@ module Decode_Stage_tb();
       MemRead != 0 ||
       RegStore != 0 ||
       OPCP2 != 0 ||
-      1stArg != 0 ||
-      2ndArg != 0 ||
-      3rdArg != 0 ||
+      Arg1 != 0 ||
+      Arg2 != 0 ||
+      Arg3 != 0 ||
       Imm != 0 ||
       Rs1 != 0 ||
       Rs2 != 0 ||
@@ -213,9 +219,9 @@ module Decode_Stage_tb();
     //   MemRead != 0 ||
     //   RegStore != 0 ||
     //   OPCP2 != 0 ||
-    //   1stArg != 0 ||
-    //   2ndArg != 0 ||
-    //   3rdArg != 0 ||
+    //   Arg1 != 0 ||
+    //   Arg2 != 0 ||
+    //   Arg3 != 0 ||
     //   Imm != 0 ||
     //   Rs1 != 0 ||
     //   Rs2 != 0 ||
