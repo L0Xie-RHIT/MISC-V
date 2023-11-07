@@ -37,7 +37,7 @@ IF_ID IFIDRB(
     .IIR(ir_in),
     .CLK(clk),
     .Reset(reset),
-    .RegWrite(1'b1),
+    .RegWrite(RegWrite),
     .OPCP2(OPCP2),
     .OPC(pc),
     .OIR(ir)
@@ -55,7 +55,7 @@ Control CUnit(
     .func(ir[15:12]),
     .reset(reset),
     .CLK(clk),
-    .RegWrite(rf_write),
+    .RegWrite(RegWrite),
     .ALUsrc(ALUSrc),
     .ALUop(ALUOp),
     .MemWrite(MemWrite),
@@ -77,7 +77,7 @@ Register_File Regs(
     .Reg_input_data(loadData),
     .CLK(clk),
     .Reset(reset),
-    .Reg_Write(RegWrite),
+    .Reg_Write(rf_write),
     .Reg_output1(arg1),
     .Reg_output2(arg2),
     .Reg_output3(arg3)
@@ -121,7 +121,7 @@ Comparator comp(
     .BranchComparison(branchCompCon)
 );
 
-assign jump = BranchCon && branchCompCon;
+assign jump = ~(BranchCon && branchCompCon);
 always @ * begin
     pc_added = pc + immCon;
 end
