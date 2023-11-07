@@ -13,24 +13,6 @@ wire jumpCon;
 
 wire [15:0] newPCInCon;
 
-mux16b2 pcMux (
-    .a(new_pcDE),
-    .b(FnewPCCon),
-    .s(jumpCon),
-    .r(newPCInCon)
-);
-
-
-Fetch_Stage fetch (
-    .pc_in(newPCInCon),
-    .reset(reset),
-    .clk(clk),
-    .new_pc(FnewPCCon),
-    .old_pc(FPCCon),
-    .ir(irCon)
-);
-
-
 // id input components
 wire [15:0] loadAddrWB;
 wire [15:0] loadDataWB;
@@ -51,17 +33,67 @@ wire [15:0] ImmDE;
 wire [15:0] Rs1DE;
 wire [15:0] Rs2DE;
 wire [15:0] RdDE;
-wire [15:0] Rs2DE;
-wire [15:0] RdDE;
 wire [15:0] new_pcDE;
 wire [0:0] jumpDE;
+
+//Execute stage components
+
+wire ORegWriteEX;
+wire ORegStoreEX;
+wire OMemWriteEX;
+wire OMemReadEX;
+wire [15:0] OPCP2EX;
+wire [15:0] OALUResultEX;
+wire [15:0] O3rdArgEX;
+wire [15:0] ORs1EX;
+wire [15:0] ORs2EX;
+wire [15:0] ORdEX;
+
+//Memory stage components
+
+wire ORegWriteMEM;
+wire ORegStoreMEM;
+wire [15:0] OPCP2MEM;
+wire [15:0] OALUResultMEM;
+wire [15:0] StoreMemMEM;
+wire [2:0] rdMEM;
+
+//Write Stage components
+
+wire RegWriteWB;
+
+//Forwarding components 
+
+wire [1:0] fwd1EX;
+wire [1:0] fwd2EX;
+wire [0:0] fwd3EX;
+wire [0:0] Bfwd1;
+wire [0:0] Bfwd2;
+wire [0:0] fwdMEM;
+
+mux16b2 pcMux (
+    .a(new_pcDE),
+    .b(FnewPCCon),
+    .s(jumpCon),
+    .r(newPCInCon)
+);
+
+
+Fetch_Stage fetch (
+    .pc_in(newPCInCon),
+    .reset(reset),
+    .clk(clk),
+    .new_pc(FnewPCCon),
+    .old_pc(FPCCon),
+    .ir(irCon)
+);
 
 Decode_Stage DeStage (
     .IPC2(FnewPCCon),
     .pc_in(FPCCon),
     .ir_in(irCon),
-    .loadAddr(loadAddr), //
-    .loadData(loadData),  //
+    .loadAddr(loadAddrWB), 
+    .loadData(loadDataWB),  
     .comparatorMux1Control(Bfwd1),
     .comparatorMux2Control(Bfwd2),
     .comparatorMuxForward(loadDataWB),
@@ -75,9 +107,9 @@ Decode_Stage DeStage (
     .MemRead(MemReadDE),
     .RegStore(RegStoreDE),
     .OPCP2(OPCP2DE),
-    .1stArg(Arg1DE),
-    .2ndArg(Arg2DE),
-    .3rdArg(Arg3DE),
+    .Arg1(Arg1DE),
+    .Arg2(Arg2DE),
+    .Arg3(Arg3DE),
     .Imm(ImmDE),
     .Rs1(Rs1DE),
     .Rs2(Rs2DE),
@@ -87,16 +119,7 @@ Decode_Stage DeStage (
 );
 
 
-wire ORegWriteEX;
-wire ORegStoreEX;
-wire OMemWriteEX;
-wire OMemReadEX;
-wire [15:0] OPCP2EX;
-wire [15:0] OALUResultEX;
-wire [15:0] O3rdArgEX;
-wire [15:0] ORs1EX;
-wire [15:0] ORs2EX;
-wire [15:0] ORdEX;
+
 
 Execute_Stage EXStage (
     .IRegWrite(RegWriteDE),
@@ -132,12 +155,7 @@ Execute_Stage EXStage (
     .ORd(ORdEX)
 );
 
-wire ORegWriteMEM;
-wire ORegStoreMEM;
-wire [15:0] OPCP2MEM;
-wire [15:0] OALUResultMEM;
-wire [15:0] StoreMemMEM;
-wire [2:0] rdMEM;
+
 
 Memory_Stage MEMStage (
     .reset(reset),
@@ -160,9 +178,7 @@ Memory_Stage MEMStage (
     .rdWB(rdMEM)
 );
 
-wire RegWriteWB;
-wire [15:0] loadDataWB;
-wire [2:0] loadAddrWB;
+
 
 Write_Stage WBStage (
     .reset(reset),
@@ -179,14 +195,6 @@ Write_Stage WBStage (
 );
 
 
-
-
-wire [1:0] fwd1EX;
-wire [1:0] fwd2EX;
-wire [0:0] fwd3EX;
-wire [0:0] Bfwd1;
-wire [0:0] Bfwd2;
-wire [0:0] fwdMEM; 
 
 Forward Forward_Unit (
     .rs1EX(ORs1EX),
