@@ -10,7 +10,7 @@ module Memory_Data
 );
 
 wire[9:0] modified_addr;
-assign modified_addr = {1, addr[8:1]};
+assign modified_addr = {1'b1, addr[8:1], 1'b0};
 
 	raw_memory mem(
 		.data(data),
