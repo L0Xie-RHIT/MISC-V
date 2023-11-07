@@ -4,36 +4,42 @@ module Memory_Stage_tb();
     reg reset;
     reg CLK;
     reg IRegWrite;
-    reg IRegStore;
+    reg [1:0] IRegStore;
     reg MemWrite;
     reg MemRead;
+    reg [15:0] IPCP2;
     reg [15:0] IALUResult;
     reg [15:0] thirdArg;
     reg [2:0] rdMem;
-    
+    reg [15:0] loadData;
+    reg DataInSelect;
     wire ORegWrite;
-    wire ORegStore;
+    wire [1:0] ORegStore;
+    wire [15:0] OPCP2;
     wire [15:0] OALUResult;
     wire [15:0] StoreMem;
     wire [2:0] rdWB;
 
     Memory_Stage uut (
-        .reset(reset),
-        .clk(CLK),
-        .IRegWrite(IRegWrite),
-        .IRegStore(IRegStore),
-        .MemWrite(MemWrite),
-        .MemRead(MemRead),
-        .IALUResult(IALUResult),
-        .thirdArg(thirdArg),
-        .rdMem(rdMem),
-        .ORegWrite(ORegWrite),
-        .ORegStore(ORegStore),
-        .OALUResult(OALUResult),
-        .StoreMem(StoreMem),
-        .rdWB(rdWB)
+    .reset(reset),
+    .clk(CLK),
+    .IRegWrite(IRegWrite),
+    .IRegStore(IRegStore),
+    .MemWrite(MemWrite),
+    .MemRead(MemRead),
+    .IPCP2(IPCP2),
+    .IALUResult(IALUResult),
+    .thirdArg(thirdArg),
+    .rdMem(rdMem),
+    .loadData(loadData),
+    .DataInSelect(DataInSelect),
+    .ORegWrite(ORegWrite),
+    .ORegStore(ORegStore),
+    .OPCP2(OPCP2),
+    .OALUResult(OALUResult),
+    .StoreMem(StoreMem),
+    .rdWB(rdWB)
     );
-
 
     parameter HALF_PERIOD = 50;
 
@@ -55,10 +61,13 @@ module Memory_Stage_tb();
         IALUResult = 'h0004;
         thirdArg = 'hAAAA;
         rdMem = 'b101;
+        IPCP2 = 'h0011;
+        loadData = 'h0011;
+        DataInSelect = 1;
 
         #(2*HALF_PERIOD);
 
-        if(ORegWrite != 0 || ORegStore != 0 || OALUResult != 0 || StoreMem != 0 || rdWB != 0) begin
+        if(ORegWrite != 0 || ORegStore != 0 || OPCP2 != 0 || OALUResult != 0 || StoreMem != 0 || rdWB != 0) begin
             $display("Test 1 Error: Reset error");
         end
 
@@ -66,8 +75,15 @@ module Memory_Stage_tb();
         MemWrite = 1;
 
         #(2*HALF_PERIOD);
-        if(ORegWrite != IRegWrite || ORegStore != IRegStore || OALUResult != IALUResult || StoreMem != thirdArg || rdWB != rdMem) begin
+        if(ORegWrite != IRegWrite || ORegStore != IRegStore || OPCP2 != IPCP2 || OALUResult != IALUResult || StoreMem != thirdArg || rdWB != rdMem) begin
             $display("Test 2 Error: Memory Stage output is wrong");
+        end
+
+        DataInSelect = 0;
+
+        #(2*HALF_PERIOD);
+        if(ORegWrite != IRegWrite || ORegStore != IRegStore || OPCP2 != IPCP2 || OALUResult != IALUResult || StoreMem != loadData || rdWB != rdMem) begin
+            $display("Test 3 Error: Memory Stage output is wrong");
         end
 
         $display("Write Stage Test finished");
