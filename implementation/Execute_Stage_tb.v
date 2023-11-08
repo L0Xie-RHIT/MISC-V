@@ -8,19 +8,20 @@ module Execute_Stage_tb();
     reg [2:0] IALUOp;
     reg IMemWrite;
     reg IMemRead;
-    reg IRegStore;
-    reg [15:0] IOPCP2;
+    reg [1:0] IRegStore;
+    reg [15:0] IPCP2;
     reg [15:0] I1stArg;
     reg [15:0] I2ndArg;
     reg [15:0] I3rdArg;
     reg [15:0] Imm;
-    reg [15:0] IRs1;
-    reg [15:0] IRs2;
-    reg [15:0] IRd;
-    reg [15:0] rdMEM;
-    reg [15:0] rdWB;
+    reg [2:0] IRs1;
+    reg [2:0] IRs2;
+    reg [2:0] IRd;
     reg [15:0] ALUResultMEM;
     reg [15:0] loadDataWB;
+    reg [1:0] muxFwd1select;
+    reg [1:0] muxFwd2select;
+    reg [0:0] muxFwd3select;
     reg reset;
     reg clk;
 
@@ -28,11 +29,13 @@ module Execute_Stage_tb();
     wire ORegWrite;
     wire OMemWrite;
     wire OMemRead;
-    wire ORegStore;
+    wire [1:0] ORegStore;
     wire [15:0] OPCP2;
     wire [15:0] OALUResult;
     wire [15:0] O3rdArg;
-    wire [15:0] ORd;
+    wire [2:0] ORs1;
+    wire [2:0] ORs2;
+    wire [2:0] ORd;
 
     // Instantiate the module under test
     Execute_Stage UUT (
@@ -42,7 +45,7 @@ module Execute_Stage_tb();
         .IMemWrite(IMemWrite),
         .IMemRead(IMemRead),
         .IRegStore(IRegStore),
-        .IOPCP2(IOPCP2),
+        .IPCP2(IPCP2),
         .I1stArg(I1stArg),
         .I2ndArg(I2ndArg),
         .I3rdArg(I3rdArg),
@@ -50,56 +53,139 @@ module Execute_Stage_tb();
         .IRs1(IRs1),
         .IRs2(IRs2),
         .IRd(IRd),
-        .rdMEM(rdMEM),
-        .rdWB(rdWB),
         .ALUResultMEM(ALUResultMEM),
         .loadDataWB(loadDataWB),
+        .muxFwd1select(muxFwd1select),
+        .muxFwd2select(muxFwd2select),
+        .muxFwd3select(muxFwd3select),
         .reset(reset),
         .clk(clk),
         .ORegWrite(ORegWrite),
+        .ORegStore(ORegStore),
         .OMemWrite(OMemWrite),
         .OMemRead(OMemRead),
-        .ORegStore(ORegStore),
         .OPCP2(OPCP2),
         .OALUResult(OALUResult),
         .O3rdArg(O3rdArg),
+        .ORs1(ORs1),
+        .ORs2(ORs2),
         .ORd(ORd)
     );
 
     parameter HALF_PERIOD = 50;
 
-    initial begin 
-        clk = 0;
-        repeat (20) begin
-            #(HALF_PERIOD);
-            clk = ~clk;
-        end
+initial begin 
+  clk = 0;
+  forever begin
+        #(HALF_PERIOD);
+        clk = ~clk;
     end
+end
 
     initial begin
+
+        $display("Testing Initialization");
         clk = 0;
-        reset = 1;
         // Initialize all regs with non-zero values
         IRegWrite = 1;
         IALUSrc = 0;
-        IALUOp = 3'b001;
+        IALUOp = 0;
         IMemWrite = 0;
         IMemRead = 1;
         IRegStore = 1;
-        IOPCP2 = 16'hA5A5;
+        IPCP2 = 16'hA5A5;
         I1stArg = 16'h1234;
         I2ndArg = 16'h5678;
         I3rdArg = 16'h9ABC;
         Imm = 16'hDEAD;
-        IRs1 = 16'hBEEF;
-        IRs2 = 16'hCAFE;
-        IRd = 16'hF00D;
-        rdMEM = 16'h1234;
-        rdWB = 16'h5678;
+        IRs1 = 5;
+        IRs2 = 6;
+        IRd = 3;
         ALUResultMEM = 16'h9ABC;
         loadDataWB = 16'hDEAD;
+        muxFwd1select = 2;
+        muxFwd2select = 2;
+        muxFwd3select = 1;
+
+        reset = 0;
+
+        #(2*HALF_PERIOD);
+
+        // Testing No-op values
+        if (ORegWrite != 1) begin
+            $display("ORegWrite fails");
+        end
+
+        if (OMemWrite != 0) begin
+            $display("OMemWrite fails");
+        end
+
+        if (OMemRead != 1) begin
+            $display("OMemRead fails");
+        end
+
+        if (ORegStore != 1) begin
+            $display("ORegStore fails");
+        end
+
+        if (OPCP2 != 16'hA5A5) begin
+            $display("OPCP2 fails");
+        end
+
+        if (OALUResult != 0) begin
+            $display("OALUResult fails");
+        end
+
+        if (O3rdArg != 16'h9ABC) begin
+            $display("O3rdArg fails");
+        end
+
+        if (ORs1 != 5) begin
+            $display("ORs1 fails");
+        end
+
+        if (ORs2 != 6) begin
+            $display("ORs2 fails");
+        end
+
+        if (ORd != 3) begin
+            $display("ORd fails");
+        end
+
+        IALUOp = 1;
+        #(2*HALF_PERIOD);
+        // Testing add
+        if (OALUResult != 0) begin
+            $display("Add fails");
+        end
+
+        IALUOp = 2;
+        #(2*HALF_PERIOD);
+        // Testing add
+        if (OALUResult != 0) begin
+            $display("Sub fails");
+        end
+
+
+        reset = 1;
+        #(2*HALF_PERIOD);
+
+        // Testing Reset
+        if(ORegWrite != 0 ||
+            OMemWrite != 0 ||
+            OMemRead != 0 ||
+            ORegStore != 0 ||
+            OPCP2 != 0 ||
+            OALUResult != 0 ||
+            O3rdArg != 0 ||
+            ORs1 != 0 ||
+            ORs2 != 0 ||
+            ORd != 0) begin
+            $display("Reset fail");
+        end
 
         $display("Execute_Stage Tests finished");
+        $stop;
     end
 
 endmodule
