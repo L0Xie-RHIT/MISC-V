@@ -8,7 +8,6 @@ module CPU(
 //    output [15:0] OnewPCInCon,
 //    output [2:0] OloadAddrWB,
 //    output [15:0] OloadDataWB,
-//    output OrfWriteWBCon,
 //    output OORegWriteEX,
 //    output [1:0] OORegStoreEX,
 //    output OOMemWriteEX,
@@ -47,7 +46,6 @@ wire [15:0] newPCInCon;
 // id input components
 wire [2:0] loadAddrWB;
 wire [15:0] loadDataWB;
-wire rfWriteWBCon;
 
 // id ex components
 wire RegWriteDE;
@@ -65,7 +63,6 @@ wire [2:0] Rs1DE;
 wire [2:0] Rs2DE;
 wire [2:0] RdDE;
 wire [15:0] new_pcDE;
-wire [0:0] jumpDE;
 
 //Execute stage components
 
@@ -205,7 +202,7 @@ Memory_Stage MEMStage (
     .ORegStore(ORegStoreMEM),
     .OPCP2(OPCP2MEM),
     .OALUResult(OALUResultMEM),
-    .StoreMem(StoreMemMEM),
+    .OStoreMem(StoreMemMEM),
     .rdWB(rdMEM)
 );
 
@@ -250,7 +247,6 @@ Forward Forward_Unit (
 //assign OnewPCInCon = newPCInCon;
 //assign OloadAddrWB = loadAddrWB;
 //assign OloadDataWB = loadDataWB;
-//assign OrfWriteWBCon = rfWriteWBCon;
 //assign ORegWriteWB = RegWriteWB;
 //assign OORegWriteEX = ORegWriteEX;
 //assign OORegStoreEX = ORegStoreEX;
