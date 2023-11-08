@@ -168,6 +168,20 @@ module Decode_Stage_tb();
       failures = failures + 1;
       $display("Failure in M-type store");
     end
+
+    //Testing output for J-type
+
+    rf_write = 0;
+    ir_in = 'b1111111100100110; //Mem[rs1:x5 + 10] = rd:x4 (M-type)
+
+    #(2*HALF_PERIOD);
+
+    if(RegWrite != 0 || ALUSrc != 0 || ALUOp != 'b001 || MemWrite != 1 ||
+    MemRead != 0 || OPCP2 != IPCP2 || Imm != -8 || Arg1 != 16 || 
+    Arg3 != -8 || Rs1 != 'b101 || Rd != 'b100 || jump != 1) begin
+      failures = failures + 1;
+      $display("Failure in J-type");
+    end
     
 
 
