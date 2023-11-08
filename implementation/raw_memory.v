@@ -1,5 +1,5 @@
 module raw_memory
-#(parameter DATA_WIDTH=16, parameter ADDR_WIDTH=10)
+#(parameter DATA_WIDTH=16, parameter ADDR_WIDTH=9)
 (
 	input [(DATA_WIDTH-1):0] data,
 	input [(ADDR_WIDTH-1):0] addr,
@@ -14,7 +14,7 @@ module raw_memory
 	reg [ADDR_WIDTH-1:0] addr_reg;
 
 	initial begin 
-		$readmemh("C:/Users/kilnerdr/Desktop/MISCV/Memory_file.txt", ram);
+		$readmemh("C:/Users/ferrerj/rhit-csse232-2324a-project-misc-v-2324a/implementation/memory.txt", ram);
 		$display("Memory Loaded");
 	end
 	

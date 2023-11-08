@@ -4,7 +4,7 @@ module Decode_Stage_tb();
   reg [15:0] IPCP2;
   reg [15:0] pc_in;
   reg [15:0] ir_in;
-  reg [3:0] loadAddr;
+  reg [2:0] loadAddr;
   reg [15:0] loadData;
   reg [0:0] comparatorMux1Control;
   reg [0:0] comparatorMux2Control;
@@ -17,15 +17,15 @@ module Decode_Stage_tb();
   wire [2:0] ALUOp;
   wire [0:0] MemWrite;
   wire [0:0] MemRead;
-  wire [0:0] RegStore;
+  wire [1:0] RegStore;
   wire [15:0] OPCP2;
-  wire [15:0] Arg1;
-  wire [15:0] Arg2;
-  wire [15:0] Arg3;
-  wire [15:0] Imm;
-  wire [2:0] Rs1;
-  wire [2:0] Rs2;
-  wire [2:0] Rd;
+  wire signed[15:0] Arg1;
+  wire signed[15:0] Arg2;
+  wire signed[15:0] Arg3;
+  wire signed[15:0] Imm;
+  wire unsigned[2:0] Rs1;
+  wire unsigned[2:0] Rs2;
+  wire unsigned[2:0] Rd;
   wire [15:0] new_pc;
   wire [0:0] jump;
 
@@ -74,6 +74,7 @@ module Decode_Stage_tb();
   initial begin
 
     //Initialize
+    #(HALF_PERIOD);
     reset = 1;
     #(2*HALF_PERIOD);
     reset = 0;
@@ -119,11 +120,11 @@ module Decode_Stage_tb();
 
     #(2*HALF_PERIOD);
 
-    if(RegWrite != 1 || ALUSrc != 1 || ALUOp != 001 || MemWrite != 0 ||
-    MemRead != 0 || RegStore != 1 || OPCP2 != IPCP2 || Arg1 != 16 || 
-    Arg2 != 10 || Arg3 != -8 || Rs1 != 5 || Rs2 != 6 || Rd != 4 || jump != 1) begin
+    if(RegWrite != 1 || ALUSrc != 1 || ALUOp != 'b010 || MemWrite != 0 ||
+    MemRead != 0 || RegStore != 1 || OPCP2 != 4 || Arg1 != 16 || 
+    Arg2 != 10 || Arg3 != -8 || Rs1 != 'b101 || Rs2 != 'b110 || Rd != 'b100 || jump != 1) begin
       failures = failures + 1;
-      $display("Failure in R-type");
+      $display("Failure in R-type %d", $time);
     end
 
     //Testing output for I-type
@@ -133,9 +134,9 @@ module Decode_Stage_tb();
 
     #(2*HALF_PERIOD);
 
-    if(RegWrite != 1 || ALUSrc != 0 || ALUOp != 000 || MemWrite != 0 ||
+    if(RegWrite != 1 || ALUSrc != 0 || ALUOp != 'b001 || MemWrite != 0 ||
     MemRead != 0 || RegStore != 1 || OPCP2 != IPCP2 || Imm != 12 || Arg1 != 16 || 
-    Arg3 != -8 || Rs1 != 5 || Rd != 4 || jump != 1) begin
+    Arg3 != -8 || Rs1 != 'b101 || Rd != 'b100 || jump != 1) begin
       failures = failures + 1;
       $display("Failure in I-type");
     end
@@ -147,9 +148,9 @@ module Decode_Stage_tb();
 
     #(2*HALF_PERIOD);
 
-    if(RegWrite != 1 || ALUSrc != 0 || ALUOp != 000 || MemWrite != 0 ||
+    if(RegWrite != 1 || ALUSrc != 0 || ALUOp != 'b001 || MemWrite != 0 ||
     MemRead != 1 || RegStore != 0 || OPCP2 != IPCP2 || Imm != 10 || Arg1 != 16 || 
-    Arg3 != -8 || Rs1 != 5 || Rd != 4 || jump != 1) begin
+    Arg3 != -8 || Rs1 != 'b101 || Rd != 'b100 || jump != 1) begin
       failures = failures + 1;
       $display("Failure in M-type load");
     end
@@ -161,9 +162,9 @@ module Decode_Stage_tb();
 
     #(2*HALF_PERIOD);
 
-    if(RegWrite != 0 || ALUSrc != 0 || ALUOp != 000 || MemWrite != 1 ||
+    if(RegWrite != 0 || ALUSrc != 0 || ALUOp != 'b001 || MemWrite != 1 ||
     MemRead != 0 || OPCP2 != IPCP2 || Imm != 10 || Arg1 != 16 || 
-    Arg3 != -8 || Rs1 != 5 || Rd != 4 || jump != 1) begin
+    Arg3 != -8 || Rs1 != 'b101 || Rd != 'b100 || jump != 1) begin
       failures = failures + 1;
       $display("Failure in M-type store");
     end
