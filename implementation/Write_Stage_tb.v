@@ -57,7 +57,19 @@ module Write_Stage_tb();
 
         #(2*HALF_PERIOD);
         if(loadData != ALUResult || loadAddr != rdWB || regWriteOut != RegWrite) begin
-            $display("Test 2 Error: Writeback does not output");
+            $display("Test 2 Error: Writeback does not output correctly when RegWrite is 1");
+        end
+
+        RegStore = 0;
+        #(2*HALF_PERIOD);
+        if(loadData != StoreMem || loadAddr != rdWB || regWriteOut != RegWrite) begin
+            $display("Test 3 Error: Writeback does not output correctly when RegWrite is 0");
+        end
+
+        RegStore = 2;
+        #(2*HALF_PERIOD);
+        if(loadData != IPCP2 || loadAddr != rdWB || regWriteOut != 1) begin
+            $display("Test 4 Error: Writeback does not output correctly when RegWrite is 2");
         end
 
         $display("Write Stage Test finished");
