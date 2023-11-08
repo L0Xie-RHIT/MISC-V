@@ -15,7 +15,7 @@ module Memory_Stage(
     output [1:0] ORegStore,
     output [15:0] OPCP2,
     output [15:0] OALUResult,
-    output [15:0] StoreMem,
+    output [15:0] OStoreMem,
     output [2:0] rdWB
 );
 
@@ -67,6 +67,6 @@ Memory_Data mem (
 	.q(StoreMemCon)
 );
 
-assign StoreMem = StoreMemCon;
+assign OStoreMem = StoreMemCon;
 
 endmodule
