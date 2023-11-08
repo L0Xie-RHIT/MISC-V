@@ -46,16 +46,16 @@ begin
 		MemWrite = 0;
 		Branch = 0;
 		JumpOut = 0;
-		if(func == 0) begin
+		if(func[3:2] == 0) begin
 			ALUop = 1;
 		end
-		if(func == 1) begin
+		if(func[3:2] == 1) begin
 			ALUop = 5;
 		end
-		if(func == 2) begin
+		if(func[3:2] == 2) begin
 			ALUop = 6;
 		end
-		if(func == 3) begin
+		if(func[3:2] == 3) begin
 			ALUop = 7;
 		end
 	 end
