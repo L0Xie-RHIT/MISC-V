@@ -88,16 +88,16 @@ end
         clk = 0;
         // Initialize all regs with non-zero values
         IRegWrite = 1;
-        IALUSrc = 0;
+        IALUSrc = 1;
         IALUOp = 0;
         IMemWrite = 0;
         IMemRead = 1;
         IRegStore = 1;
         IPCP2 = 16'hA5A5;
-        I1stArg = 16'h1234;
-        I2ndArg = 16'h5678;
+        I1stArg = 12;
+        I2ndArg = 2;
         I3rdArg = 16'h9ABC;
-        Imm = 16'hDEAD;
+        Imm = 10;
         IRs1 = 5;
         IRs2 = 6;
         IRd = 3;
@@ -152,18 +152,36 @@ end
             $display("ORd fails");
         end
 
+
+        //Testing R-types
         IALUOp = 1;
         #(2*HALF_PERIOD);
         // Testing add
-        if (OALUResult != 0) begin
-            $display("Add fails");
+        if (OALUResult != 14) begin
+            $display("Add fails. Result: %d", OALUResult);
         end
 
         IALUOp = 2;
         #(2*HALF_PERIOD);
+        // Testing sub
+        if (OALUResult != 10) begin
+            $display("Sub fails. Result: %d", OALUResult);
+        end
+
+        //Testing I-types
+        IALUSrc = 0;
+        IALUOp = 1;
+        #(2*HALF_PERIOD);
         // Testing add
-        if (OALUResult != 0) begin
-            $display("Sub fails");
+        if (OALUResult != 22) begin
+            $display("I-type add fails. Result: %d", OALUResult);
+        end
+
+        IALUOp = 5;
+        #(2*HALF_PERIOD);
+        // Testing sub
+        if (OALUResult != 12288) begin
+            $display("Shift Left fails. Result: %d", OALUResult);
         end
 
 
