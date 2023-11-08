@@ -106,7 +106,7 @@ wire [15:0] ALUIn2;
 mux16b2 ALUIn2Mux(
     .a(immCon),
     .b(arg2MuxCon),
-    .s(ALUSrcCon),
+    .s(IALUSrc),
     .r(ALUIn2)
 );
 
