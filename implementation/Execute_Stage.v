@@ -58,7 +58,7 @@ ID_EX IDEXRB (
     .CLK(clk),
     .Reset(reset),
     .ORegWrite(ORegWrite),
-    .OALUSrc(OALUSrc),
+    .OALUSrc(ALUSrcCon),
     .OALUOP(ALUOpCon),
     .OMemWrite(OMemWrite),
     .OMemRead(OMemRead),
@@ -106,7 +106,7 @@ wire [15:0] ALUIn2;
 mux16b2 ALUIn2Mux(
     .a(immCon),
     .b(arg2MuxCon),
-    .s(IALUSrc),
+    .s(ALUSrcCon),
     .r(ALUIn2)
 );
 
