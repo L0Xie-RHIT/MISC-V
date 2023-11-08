@@ -104,21 +104,21 @@ initial begin
 		failures = failures + 1;
 		$display("I-Type add failure");
 	end
-	func = 1;
+	func = 4;
 	#(2*HALF_PERIOD);
-	if(func == 1 && ALUop != 5) begin
+	if(func == 4 && ALUop != 5) begin
 		failures = failures + 1;
 		$display("I-Type sl failure");
 	end
-	func = 2;
+	func = 8;
 	#(2*HALF_PERIOD);
-	if(func == 2 && ALUop != 6) begin
+	if(func == 8 && ALUop != 6) begin
 		failures = failures + 1;
 		$display("I-Type sr failure ALUop = %d", ALUop);
 	end
-	func = 3;
+	func = 12;
 	#(2*HALF_PERIOD);
-	if(func == 3 && ALUop != 7) begin
+	if(func == 12 && ALUop != 7) begin
 		failures = failures + 1;
 		$display("I-Type xor failure");
 	end
