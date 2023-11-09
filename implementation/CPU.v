@@ -35,6 +35,7 @@ module CPU(
 
 // if id components
 wire [15:0] FnewPCCon;
+wire [15:0] FPCP2Con;
 wire [15:0] FPCCon;
 wire [15:0] irCon;
 
@@ -112,12 +113,13 @@ Fetch_Stage fetch (
     .reset(reset),
     .clk(clk),
     .new_pc(FnewPCCon),
+    .old_pcp2(FPCP2Con),
     .old_pc(FPCCon),
     .ir(irCon)
 );
 
 Decode_Stage DeStage (
-    .IPCP2(FnewPCCon),
+    .IPCP2(FPCP2Con),
     .pc_in(FPCCon),
     .ir_in(irCon),
     .loadAddr(loadAddrWB), 
