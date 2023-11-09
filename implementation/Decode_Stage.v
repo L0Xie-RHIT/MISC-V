@@ -10,6 +10,7 @@ module Decode_Stage(
     input rf_write,
     input reset,
     input clk,
+    input RB_write,
     output RegWrite,
     output ALUSrc,
     output [2:0] ALUOp,
@@ -37,7 +38,7 @@ IF_ID IFIDRB(
     .IIR(ir_in),
     .CLK(clk),
     .Reset(reset),
-    .RegWrite(RegWrite),
+    .RegWrite(RB_write),
     .OPCP2(OPCP2),
     .OPC(pc),
     .OIR(ir)
