@@ -11,12 +11,14 @@ module Memory_Stage(
     input [2:0] rdMem,
     input [15:0] loadData,
     input DataInSelect,
+    input [15:0] in,
     output ORegWrite,
     output [1:0] ORegStore,
     output [15:0] OPCP2,
     output [15:0] OALUResult,
     output [15:0] OStoreMem,
-    output [2:0] rdWB
+    output [2:0] rdWB,
+    output [15:0] out
 );
 
 wire [0:0] MemWriteCon;
@@ -63,7 +65,9 @@ Memory_Data mem (
 	.data(dataInCon),
 	.addr(ALUResultCon),
 	.we(MemWriteCon),
+    .in(in),
 	.clk(clk),
+    .out(out),
 	.q(StoreMemCon)
 );
 

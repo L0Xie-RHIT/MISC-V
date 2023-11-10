@@ -5,6 +5,8 @@ module CPU_tb();
   // Inputs
   reg clk;
   reg reset;
+  reg [15:0] in;
+  wire [15:0] out;
 //  wire [15:0] OFnewPCCon;
 //  wire [15:0] OFPCCon;
 //  wire [15:0] OirCon;
@@ -38,9 +40,9 @@ module CPU_tb();
 //  wire [0:0] OfwdMEM;
 
   // Instantiate the CPU module
-  CPU my_cpu (
-    .clk(clk),
-    .reset(reset)
+  // CPU my_cpu (
+  //   .clk(clk),
+  //   .reset(reset)
 //    .OFnewPCCon(OFnewPCCon),
 //    .OFPCCon(OFPCCon),
 //    .OirCon(OirCon),
@@ -72,12 +74,14 @@ module CPU_tb();
 //    .OBfwd1(OBfwd1),
 //    .OBfwd2(OBfwd2),
 //    .OfwdMEM(OfwdMEM)
-  );
+  // );
 
   // Instantiate the CPU module
   CPU uut (
     .clk(clk),
-    .reset(reset)
+    .reset(reset),
+    .in(in),
+    .out(out)
   );
   
 parameter HALF_PERIOD = 50;
@@ -96,6 +100,7 @@ end
 
   // Reset generation
   initial begin
+    in = 3;
     reset = 1;
     #(2*HALF_PERIOD);
     reset = 0;

@@ -1,6 +1,8 @@
 module CPU(
     input [0:0] clk,
-    input [0:0] reset
+    input [0:0] reset,
+    input [15:0] in,
+    output [15:0] out
 //    output [15:0] OFnewPCCon,
 //    output [15:0] OFPCCon,
 //    output [15:0] OirCon,
@@ -202,12 +204,14 @@ Memory_Stage MEMStage (
     .rdMem(ORdEX),
     .loadData(loadDataWB),
     .DataInSelect(fwdMEM),
+    .in(in),
     .ORegWrite(ORegWriteMEM),
     .ORegStore(ORegStoreMEM),
     .OPCP2(OPCP2MEM),
     .OALUResult(OALUResultMEM),
     .OStoreMem(StoreMemMEM),
-    .rdWB(rdMEM)
+    .rdWB(rdMEM),
+    .out(out)
 );
 
 
