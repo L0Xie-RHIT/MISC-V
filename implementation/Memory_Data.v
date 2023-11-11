@@ -24,7 +24,7 @@ raw_memory mem(
 	.data(mem_in),
 	.addr(modified_addr),
 	.we(we),
-	.clk(clk),
+	.clk(~clk),
 	.q(mem_out)
 );
 

@@ -29,8 +29,11 @@ gcd:		sp +_ -2, sp
 x0 + x0, x0
 		ra -> sp+0
 		a0 Y= x0, returnb
+		x0 + x0, x0
 loop2:	a1 Y= x0, returna
+		x0 + x0, x0
 		a1 Y< a0, agreater
+		x0 + x0, x0
 		a1 - a0, a1
 		x0 + x0, x0
 		x0 \/ loop2

@@ -28,8 +28,11 @@ Register current_pc(
     .reg_output(delayed_pc)
 );
 
+wire [15:0] current_pcp2_con;
+assign current_pcp2_con = pc_out + 2;
+
 Register current_pcp2(
-    .reg_input(pc_out + 2),
+    .reg_input(current_pcp2_con),
     .reg_write(1'b1),
     .reset(reset),
     .CLK(clk),

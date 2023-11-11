@@ -20,7 +20,7 @@ decoder3b8 decoder_inst (.in(Reg_input_address), .out(decoder_output));
 
 // Register Instantiations
 Register reg0(.reg_input(Reg_input_data), .reg_write(decoder_output[0] && Reg_Write),
-    .reset(1), .CLK(~CLK), .reg_output(registers[0]));
+    .reset(1'b1), .CLK(~CLK), .reg_output(registers[0]));
 Register reg1(.reg_input(Reg_input_data), .reg_write(decoder_output[1] && Reg_Write),
     .reset(Reset), .CLK(~CLK), .reg_output(registers[1]));
 Register reg2(.reg_input(Reg_input_data), .reg_write(decoder_output[2] && Reg_Write),
