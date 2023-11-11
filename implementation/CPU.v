@@ -98,8 +98,8 @@ wire RegWriteWB;
 wire [1:0] fwd1EX;
 wire [1:0] fwd2EX;
 wire [0:0] fwd3EX;
-wire [0:0] Bfwd1;
-wire [0:0] Bfwd2;
+wire [1:0] Bfwd1;
+wire [1:0] Bfwd2;
 wire [0:0] fwdMEM;
 
 mux16b2 pcMux (
@@ -128,7 +128,8 @@ Decode_Stage DeStage (
     .loadData(loadDataWB),  
     .comparatorMux1Control(Bfwd1),
     .comparatorMux2Control(Bfwd2),
-    .comparatorMuxForward(loadDataWB),
+    .comparatorMuxForwardMEM(loadDataWB),
+    .comparatorMuxForwardWB(loadDataWB),
     .rf_write(RegWriteWB),
     .reset(reset),
     .clk(clk),
@@ -240,6 +241,8 @@ Forward Forward_Unit (
     .rdWB(loadAddrWB),
     .rs1(Rs1DE),
     .rs2(Rs2DE),
+    .RegWriteMEM(ORegWriteMEM),
+	.RegWriteWB(RegWriteWB),
     .fwd1EX(fwd1EX),
     .fwd2EX(fwd2EX),
     .fwd3EX(fwd3EX),
