@@ -4,9 +4,10 @@ module Decode_Stage(
     input [15:0] ir_in,
     input [2:0] loadAddr,
     input [15:0] loadData,
-    input [0:0] comparatorMux1Control,
-    input [0:0] comparatorMux2Control,
-    input [15:0] comparatorMuxForward,
+    input [1:0] comparatorMux1Control,
+    input [1:0] comparatorMux2Control,
+    input [15:0] comparatorMuxForwardMEM,
+    input [15:0] comparatorMuxForwardWB,
     input rf_write,
     input reset,
     input clk,
@@ -96,16 +97,20 @@ assign Imm = immCon;
 wire [15:0] comparatorData1;
 wire [15:0] comparatorData2;
 
-mux16b2 comparatorMux1(
-    .a(comparatorMuxForward),
-    .b(arg1),
+mux16b4 comparatorMux1(
+    .a(comparatorMuxForwardMEM),
+    .b(comparatorMuxForwardWB),
+    .c(arg1),
+    .d(16'b0),
     .s(comparatorMux1Control),
     .r(comparatorData1)
 );
 
-mux16b2 comparatorMux2(
-    .a(comparatorMuxForward),
-    .b(arg2),
+mux16b4 comparatorMux2(
+    .a(comparatorMuxForwardMEM),
+    .b(comparatorMuxForwardWB),
+    .c(arg2),
+    .d(16'b0),
     .s(comparatorMux2Control),
     .r(comparatorData2)
 );
