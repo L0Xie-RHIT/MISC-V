@@ -2,9 +2,9 @@ module Fetch_Stage(
     input [15:0] pc_in,
     input reset,
     input clk,
-    output [15:0] new_pc,
+    output reg [15:0] new_pc,
     output [15:0] old_pcp2,
-    output [15:0] old_pc,
+    output reg [15:0] old_pc,
     output [15:0] ir
 );
 
@@ -46,9 +46,18 @@ Memory_Text instruction_memory(
     .clk(clk),
     .q(ir)
 );
-
-
-assign new_pc = pc_out + 2;
-assign old_pc = delayed_pc;
-
+always @(*) begin
+    if (reset == 0) begin
+        new_pc <= pc_out + 2;
+        old_pc <= delayed_pc;
+    end
+    else begin
+        new_pc <= 2;
+        old_pc <= 0;
+    end
+end
+// always @(posedge(clk)) begin
+// new_pc <= pc_out + 2;
+// old_pc <= delayed_pc;
+// end
 endmodule
