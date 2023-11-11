@@ -87,6 +87,7 @@ module CPU_tb();
 parameter HALF_PERIOD = 50;
 
 integer failures = 0;
+integer success = 0;
 
 
   // Clock generation
@@ -100,11 +101,33 @@ end
 
   // Reset generation
   initial begin
-    in = 3;
+    in = 4;
     reset = 1;
     #(2*HALF_PERIOD);
     reset = 0;
-	 repeat (50) #(2*HALF_PERIOD);
+	 while (out != 3) begin
+     #(2*HALF_PERIOD);
+   end
+   success = success + 1;
+   $display("Test completed at %d", in);
+   in = 5;
+    
+    #(2*HALF_PERIOD);
+    reset = 0;
+	 while (out != 2) begin
+     #(2*HALF_PERIOD);
+   end
+   success = success + 1;
+   $display("Test completed at %d", in);
+   in = 12;
+    
+    #(2*HALF_PERIOD);
+    reset = 0;
+	 while (out != 5) begin
+     #(2*HALF_PERIOD);
+   end
+   success = success + 1;
+   $display("Test completed at %d", in);
     $stop;
   end
 
