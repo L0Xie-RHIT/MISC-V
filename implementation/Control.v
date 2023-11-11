@@ -92,7 +92,7 @@ begin
 	 if(opcode == 6) begin // Jump in
 		ALUsrc = 0;
 		RegStore = 2;
-		RegWrite = 0;
+		RegWrite = 1	;
 		MemRead = 0;
 		MemWrite = 0;
 		Branch = 1;

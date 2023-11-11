@@ -21,7 +21,7 @@ done:		s0 +_ 0, a0
 		ra <- sp+0
 		s0 <- sp+2
 		s1 <- sp+4
-		s0 -> x0+0
+		a0 -> x0+0
 		ra /\ 4
 		x0 + x0, x0
 gcd:		sp +_ -2, sp

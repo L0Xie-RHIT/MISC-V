@@ -104,7 +104,7 @@ end
     reset = 1;
     #(2*HALF_PERIOD);
     reset = 0;
-	 repeat (20) #(2*HALF_PERIOD);
+	 repeat (50) #(2*HALF_PERIOD);
     $stop;
   end
 
