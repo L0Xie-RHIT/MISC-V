@@ -168,11 +168,11 @@ module Decode_Stage_tb();
       failures = failures + 1;
       $display("Failure in M-type store");
     end
-
-    //Testing output for J-type
+    
+    //Testing output for Y-type
 
     rf_write = 0;
-    ir_in = 'b1111111100100110; //Mem[rs1:x5 + 10] = rd:x4 (M-type)
+    ir_in = 'b1111111100100110; //Mem[rs1:x5 + 10] = rd:x4 (Y-type)
 
     #(2*HALF_PERIOD);
 
