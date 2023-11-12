@@ -105,29 +105,39 @@ end
     reset = 1;
     #(2*HALF_PERIOD);
     reset = 0;
-	 while (out != 3) begin
-     #(2*HALF_PERIOD);
-   end
-   success = success + 1;
-   $display("Test completed at %d", in);
-   in = 5;
-    
+    while (out != 3) begin
+      #(2*HALF_PERIOD);
+    end
+    success = success + 1;
+    $display("Test completed at %d -> %d", in, out);
+    in = 5;
+
     #(2*HALF_PERIOD);
     reset = 0;
-	 while (out != 2) begin
-     #(2*HALF_PERIOD);
-   end
-   success = success + 1;
-   $display("Test completed at %d", in);
-   in = 12;
-    
+    while (out != 2) begin
+      #(2*HALF_PERIOD);
+    end
+    success = success + 1;
+    $display("Test completed at %d -> %d", in, out);
+    in = 12;
+
     #(2*HALF_PERIOD);
     reset = 0;
-	 while (out != 5) begin
-     #(2*HALF_PERIOD);
-   end
-   success = success + 1;
-   $display("Test completed at %d", in);
+    while (out != 5) begin
+      #(2*HALF_PERIOD);
+    end
+    success = success + 1;
+    $display("Test completed at %d -> %d", in, out);
+    in = 60;
+
+    #(2*HALF_PERIOD);
+    reset = 0;
+    while (out != 7) begin
+      #(2*HALF_PERIOD);
+    end
+    success = success + 1;
+    $display("Test completed at %d -> %d", in, out);
+
     $stop;
   end
 
