@@ -84,11 +84,12 @@ module CPU_tb();
     .out(out)
   );
   
-parameter HALF_PERIOD = 50;
+parameter HALF_PERIOD = 8.65;
 
 integer failures = 0;
 integer success = 0;
 
+integer instCount = 0;
 
   // Clock generation
   initial begin
@@ -101,42 +102,58 @@ end
 
   // Reset generation
   initial begin
-    in = 4;
+    // -- Timing Analysis Tests -- 
+
+    in = 'h13B0;
     reset = 1;
     #(2*HALF_PERIOD);
+    instCount = instCount + 1;
     reset = 0;
-    while (out != 3) begin
+    while (out != 'h000B) begin
       #(2*HALF_PERIOD);
+      instCount = instCount + 1;
     end
     success = success + 1;
     $display("Test completed at %d -> %d", in, out);
-    in = 5;
+    $display("Instructions executed: %d", instCount);
+    // ---------------------------
 
-    #(2*HALF_PERIOD);
-    reset = 0;
-    while (out != 2) begin
-      #(2*HALF_PERIOD);
-    end
-    success = success + 1;
-    $display("Test completed at %d -> %d", in, out);
-    in = 12;
+    // in = 4;
+    // reset = 1;
+    // #(2*HALF_PERIOD);
+    // reset = 0;
+    // while (out != 3) begin
+    //   #(2*HALF_PERIOD);
+    // end
+    // success = success + 1;
+    // $display("Test completed at %d -> %d", in, out);
+    // in = 5;
 
-    #(2*HALF_PERIOD);
-    reset = 0;
-    while (out != 5) begin
-      #(2*HALF_PERIOD);
-    end
-    success = success + 1;
-    $display("Test completed at %d -> %d", in, out);
-    in = 60;
+    // #(2*HALF_PERIOD);
+    // reset = 0;
+    // while (out != 2) begin
+    //   #(2*HALF_PERIOD);
+    // end
+    // success = success + 1;
+    // $display("Test completed at %d -> %d", in, out);
+    // in = 12;
 
-    #(2*HALF_PERIOD);
-    reset = 0;
-    while (out != 7) begin
-      #(2*HALF_PERIOD);
-    end
-    success = success + 1;
-    $display("Test completed at %d -> %d", in, out);
+    // #(2*HALF_PERIOD);
+    // reset = 0;
+    // while (out != 5) begin
+    //   #(2*HALF_PERIOD);
+    // end
+    // success = success + 1;
+    // $display("Test completed at %d -> %d", in, out);
+    // in = 60;
+
+    // #(2*HALF_PERIOD);
+    // reset = 0;
+    // while (out != 7) begin
+    //   #(2*HALF_PERIOD);
+    // end
+    // success = success + 1;
+    // $display("Test completed at %d -> %d", in, out);
 
     $stop;
   end
