@@ -6,12 +6,14 @@ module Decode_Stage_tb();
   reg [15:0] ir_in;
   reg [2:0] loadAddr;
   reg [15:0] loadData;
-  reg [0:0] comparatorMux1Control;
-  reg [0:0] comparatorMux2Control;
-  reg [15:0] comparatorMuxForward;
+  reg [1:0] comparatorMux1Control;
+  reg [1:0] comparatorMux2Control;
+  reg [15:0] comparatorMuxForwardMEM;
+  reg [15:0] comparatorMuxForwardWB;
   reg rf_write;
   reg reset;
   reg clk;
+  reg RB_write;
   wire RegWrite;
   wire ALUSrc;
   wire [2:0] ALUOp;
@@ -23,9 +25,9 @@ module Decode_Stage_tb();
   wire signed[15:0] Arg2;
   wire signed[15:0] Arg3;
   wire signed[15:0] Imm;
-  wire unsigned[2:0] Rs1;
-  wire unsigned[2:0] Rs2;
-  wire unsigned[2:0] Rd;
+  wire [2:0] Rs1;
+  wire [2:0] Rs2;
+  wire [2:0] Rd;
   wire [15:0] new_pc;
   wire [0:0] jump;
 
@@ -37,7 +39,8 @@ module Decode_Stage_tb();
     .loadData(loadData),
     .comparatorMux1Control(comparatorMux1Control),
     .comparatorMux2Control(comparatorMux2Control),
-    .comparatorMuxForward(comparatorMuxForward),
+    .comparatorMuxForwardMEM(comparatorMuxForwardMEM),
+    .comparatorMuxForwardWB(comparatorMuxForwardWB),
     .rf_write(rf_write),
     .reset(reset),
     .clk(clk),
@@ -47,6 +50,7 @@ module Decode_Stage_tb();
     .MemWrite(MemWrite),
     .MemRead(MemRead),
     .RegStore(RegStore),
+    .RB_write(RB_write),
     .OPCP2(OPCP2),
     .Arg1(Arg1),
     .Arg2(Arg2),
@@ -78,15 +82,17 @@ module Decode_Stage_tb();
     reset = 1;
     #(2*HALF_PERIOD);
     reset = 0;
+    RB_write = 1;
 
     pc_in = 2;
     IPCP2 = pc_in + 2;
     ir_in = 0;
     loadAddr = 0;
     loadData = 0;
-    comparatorMux1Control = 1;
-    comparatorMux2Control = 1;
-    comparatorMuxForward = 0;
+    comparatorMux1Control = 2;
+    comparatorMux2Control = 2;
+    comparatorMuxForwardWB = 0;
+    comparatorMuxForwardMEM = 0;
     rf_write = 0;
 
     #(2*HALF_PERIOD);
@@ -168,17 +174,72 @@ module Decode_Stage_tb();
       failures = failures + 1;
       $display("Failure in M-type store");
     end
+    
+    //Testing output for Y-type
 
-    //Testing output for J-type
-
-    rf_write = 0;
-    ir_in = 'b1111111100100110; //Mem[rs1:x5 + 10] = rd:x4 (M-type)
+    loadAddr = 5;
+    loadData = 50;
+    rf_write = 1;
 
     #(2*HALF_PERIOD);
 
-    if(RegWrite != 0 || ALUSrc != 0 || ALUOp != 'b001 || MemWrite != 1 ||
-    MemRead != 0 || OPCP2 != IPCP2 || Imm != -8 || Arg1 != 16 || 
-    Arg3 != -8 || Rs1 != 'b101 || Rd != 'b100 || jump != 1) begin
+    loadAddr = 6;
+    loadData = 60;
+
+    #(2*HALF_PERIOD);
+
+    rf_write = 0;
+    ir_in = 'hFD74; //x5 Y= x6, -2 (Y-type) doesnt jump
+
+    #(2*HALF_PERIOD);
+
+    if(RegWrite != 0 || MemWrite != 0 ||
+    MemRead != 0 || OPCP2 != IPCP2 || Imm != -4 || jump != 1) begin
+      failures = failures + 1;
+      $display("Failure in Y-type");
+    end
+
+    ir_in = 'h0D4D; //x5 Y< x6, 1 (Y-type) jumps
+
+    #(2*HALF_PERIOD);
+
+    if(RegWrite != 0 || MemWrite != 0 || MemRead != 0 || Imm != 2 || jump != 0) begin
+      failures = failures + 1;
+      $display("Failure in Y-type");
+    end
+
+    loadAddr = 5;
+    loadData = 60;
+    rf_write = 1;
+
+    #(2*HALF_PERIOD);
+
+    rf_write = 0;
+    ir_in = 'h0D4C; //x5 Y= x6, 1 (Y-type) jumps
+
+    #(2*HALF_PERIOD);
+
+    if(RegWrite != 0 || MemWrite != 0 || MemRead != 0 || Imm != 2 || jump != 0) begin
+      failures = failures + 1;
+      $display("Failure in Y-type");
+    end
+
+    ir_in = 'hFD5D; //x5 Y< x6, -2 (Y-type) doesn't jump
+
+    #(2*HALF_PERIOD);
+
+    if(RegWrite != 0 || MemWrite != 0 ||
+    MemRead != 0 || OPCP2 != IPCP2 || Imm != -10 || jump != 1) begin
+      failures = failures + 1;
+      $display("Failure in Y-type");
+    end
+
+    ir_in = 'hFA8E; //ra \/ -23
+
+    #(2*HALF_PERIOD);
+
+    if(RegWrite != 0 || MemWrite != 0 ||
+    MemRead != 0 || OPCP2 != IPCP2 || Imm != -46 || jump != 0) begin
       failures = failures + 1;
       $display("Failure in J-type");
     end

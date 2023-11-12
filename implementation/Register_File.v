@@ -7,9 +7,9 @@ module Register_File(
     input CLK,
     input Reset,
     input Reg_Write,
-    output reg [15:0] Reg_output1,
-    output reg [15:0] Reg_output2,
-    output reg [15:0] Reg_output3
+    output [15:0] Reg_output1,
+    output [15:0] Reg_output2,
+    output [15:0] Reg_output3
 );
 
 // Internal storage
@@ -20,21 +20,21 @@ decoder3b8 decoder_inst (.in(Reg_input_address), .out(decoder_output));
 
 // Register Instantiations
 Register reg0(.reg_input(Reg_input_data), .reg_write(decoder_output[0] && Reg_Write),
-    .reset(Reset), .CLK(CLK), .reg_output(registers[0]));
+    .reset(1'b1), .CLK(~CLK), .reg_output(registers[0]));
 Register reg1(.reg_input(Reg_input_data), .reg_write(decoder_output[1] && Reg_Write),
-    .reset(Reset), .CLK(CLK), .reg_output(registers[1]));
+    .reset(Reset), .CLK(~CLK), .reg_output(registers[1]));
 Register reg2(.reg_input(Reg_input_data), .reg_write(decoder_output[2] && Reg_Write),
-    .reset(Reset), .CLK(CLK), .reg_output(registers[2]));
+    .reset(Reset), .CLK(~CLK), .reg_output(registers[2]));
 Register reg3(.reg_input(Reg_input_data), .reg_write(decoder_output[3] && Reg_Write),
-    .reset(Reset), .CLK(CLK), .reg_output(registers[3]));
+    .reset(Reset), .CLK(~CLK), .reg_output(registers[3]));
 Register reg4(.reg_input(Reg_input_data), .reg_write(decoder_output[4] && Reg_Write),
-    .reset(Reset), .CLK(CLK), .reg_output(registers[4]));
+    .reset(Reset), .CLK(~CLK), .reg_output(registers[4]));
 Register reg5(.reg_input(Reg_input_data), .reg_write(decoder_output[5] && Reg_Write),
-    .reset(Reset), .CLK(CLK), .reg_output(registers[5]));
+    .reset(Reset), .CLK(~CLK), .reg_output(registers[5]));
 Register reg6(.reg_input(Reg_input_data), .reg_write(decoder_output[6] && Reg_Write),
-    .reset(Reset), .CLK(CLK), .reg_output(registers[6]));
+    .reset(Reset), .CLK(~CLK), .reg_output(registers[6]));
 Register reg7(.reg_input(Reg_input_data), .reg_write(decoder_output[7] && Reg_Write),
-    .reset(Reset), .CLK(CLK), .reg_output(registers[7]));
+    .reset(Reset), .CLK(~CLK), .reg_output(registers[7]));
 
     // Reading first address
     wire [15:0] mux_connection1[1:0];
@@ -70,11 +70,9 @@ Register reg7(.reg_input(Reg_input_data), .reg_write(decoder_output[7] && Reg_Wr
 
     mux16b2 upper_mux3(.a(mux_connection3[0]), .b(mux_connection3[1]), .s(Reg_address3[2]), .r(output3));
 
-always @ (negedge(CLK))
-begin
-    Reg_output1 <= output1;
-    Reg_output2 <= output2;
-    Reg_output3 <= output3;
-end
+
+assign Reg_output1 = output1;
+assign Reg_output2 = output2;
+assign Reg_output3 = output3;
 
 endmodule

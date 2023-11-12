@@ -20,7 +20,7 @@ module Execute_Stage(
     input [0:0] muxFwd3select,
     input reset,
     input clk,
-    
+    input RB_write,
     output ORegWrite,
     output [1:0] ORegStore,
     output OMemWrite,
@@ -57,6 +57,7 @@ ID_EX IDEXRB (
     .IRd(IRd),
     .CLK(clk),
     .Reset(reset),
+    .RB_write(RB_write),
     .ORegWrite(ORegWrite),
     .OALUSrc(ALUSrcCon),
     .OALUOP(ALUOpCon),

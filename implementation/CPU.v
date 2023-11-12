@@ -1,6 +1,8 @@
 module CPU(
     input [0:0] clk,
-    input [0:0] reset
+    input [0:0] reset,
+    input [15:0] in,
+    output [15:0] out
 //    output [15:0] OFnewPCCon,
 //    output [15:0] OFPCCon,
 //    output [15:0] OirCon,
@@ -35,6 +37,7 @@ module CPU(
 
 // if id components
 wire [15:0] FnewPCCon;
+wire [15:0] FPCP2Con;
 wire [15:0] FPCCon;
 wire [15:0] irCon;
 
@@ -95,8 +98,8 @@ wire RegWriteWB;
 wire [1:0] fwd1EX;
 wire [1:0] fwd2EX;
 wire [0:0] fwd3EX;
-wire [0:0] Bfwd1;
-wire [0:0] Bfwd2;
+wire [1:0] Bfwd1;
+wire [1:0] Bfwd2;
 wire [0:0] fwdMEM;
 
 mux16b2 pcMux (
@@ -112,22 +115,25 @@ Fetch_Stage fetch (
     .reset(reset),
     .clk(clk),
     .new_pc(FnewPCCon),
+    .old_pcp2(FPCP2Con),
     .old_pc(FPCCon),
     .ir(irCon)
 );
 
 Decode_Stage DeStage (
-    .IPCP2(FnewPCCon),
+    .IPCP2(FPCP2Con),
     .pc_in(FPCCon),
     .ir_in(irCon),
     .loadAddr(loadAddrWB), 
     .loadData(loadDataWB),  
     .comparatorMux1Control(Bfwd1),
     .comparatorMux2Control(Bfwd2),
-    .comparatorMuxForward(loadDataWB),
+    .comparatorMuxForwardMEM(loadDataWB),
+    .comparatorMuxForwardWB(loadDataWB),
     .rf_write(RegWriteWB),
     .reset(reset),
     .clk(clk),
+    .RB_write(1'b1),
     .RegWrite(RegWriteDE),
     .ALUSrc(ALUSrcDE),
     .ALUOp(ALUOpDE),
@@ -171,6 +177,7 @@ Execute_Stage EXStage (
     .muxFwd3select(fwd3EX),
     .reset(reset),
     .clk(clk),
+    .RB_write(1'b1),
     .ORegWrite(ORegWriteEX),
     .ORegStore(ORegStoreEX),
     .OMemWrite(OMemWriteEX),
@@ -198,12 +205,14 @@ Memory_Stage MEMStage (
     .rdMem(ORdEX),
     .loadData(loadDataWB),
     .DataInSelect(fwdMEM),
+    .in(in),
     .ORegWrite(ORegWriteMEM),
     .ORegStore(ORegStoreMEM),
     .OPCP2(OPCP2MEM),
     .OALUResult(OALUResultMEM),
     .OStoreMem(StoreMemMEM),
-    .rdWB(rdMEM)
+    .rdWB(rdMEM),
+    .out(out)
 );
 
 
@@ -232,6 +241,8 @@ Forward Forward_Unit (
     .rdWB(loadAddrWB),
     .rs1(Rs1DE),
     .rs2(Rs2DE),
+    .RegWriteMEM(ORegWriteMEM),
+	.RegWriteWB(RegWriteWB),
     .fwd1EX(fwd1EX),
     .fwd2EX(fwd2EX),
     .fwd3EX(fwd3EX),

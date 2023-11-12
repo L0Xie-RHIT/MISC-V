@@ -15,6 +15,7 @@ module ID_EX(
     input [2:0] IRd,
     input CLK,
     input Reset,
+    input RB_write,
     output reg[0:0] ORegWrite,
     output reg[0:0] OALUSrc,
     output reg[2:0] OALUOP,
@@ -34,7 +35,7 @@ module ID_EX(
 always @ (posedge(CLK))
 begin
     if (Reset != 1) begin
-        if(IRegWrite == 1) begin
+        if(RB_write == 1) begin
             ORegWrite <= IRegWrite;
             OALUSrc <= IALUSrc;
             OALUOP <= IALUOP;
