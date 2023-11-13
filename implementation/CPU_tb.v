@@ -84,7 +84,7 @@ module CPU_tb();
     .out(out)
   );
   
-parameter HALF_PERIOD = 8.65;
+parameter HALF_PERIOD = 8.65; // cyc time
 
 integer failures = 0;
 integer success = 0;
