@@ -84,7 +84,11 @@ module CPU_tb();
     .out(out)
   );
   
+<<<<<<< HEAD
+parameter HALF_PERIOD = 8.67; // cyc time
+=======
 parameter HALF_PERIOD = 8.65; // cyc time
+>>>>>>> 0159f23b21bcff403925e63b2fbdf29855754332
 
 integer failures = 0;
 integer success = 0;
@@ -118,25 +122,29 @@ end
     $display("Instructions executed: %d", instCount);
     // ---------------------------
 
-    // in = 4;
-    // reset = 1;
-    // #(2*HALF_PERIOD);
-    // reset = 0;
-    // while (out != 3) begin
-    //   #(2*HALF_PERIOD);
-    // end
-    // success = success + 1;
-    // $display("Test completed at %d -> %d", in, out);
-    // in = 5;
+    in = 'h0906;
+    reset = 1;
+    #(2*HALF_PERIOD);
+    reset = 0;
+    while (out != 13) begin
+      #(2*HALF_PERIOD);
+      instCount = instCount + 1;
+    end
+    success = success + 1;
+    $display("Test completed at %d -> %d", in, out);
+    $display("Instructions executed: %d", instCount);
+    in = 'h754E;
 
-    // #(2*HALF_PERIOD);
-    // reset = 0;
-    // while (out != 2) begin
-    //   #(2*HALF_PERIOD);
-    // end
-    // success = success + 1;
-    // $display("Test completed at %d -> %d", in, out);
-    // in = 12;
+    #(2*HALF_PERIOD);
+    reset = 0;
+    while (out != 17) begin
+      #(2*HALF_PERIOD);
+      instCount = instCount + 1;
+    end
+    success = success + 1;
+    $display("Test completed at %d -> %d", in, out);
+    $display("Instructions executed: %d", instCount);
+    in = 12;
 
     // #(2*HALF_PERIOD);
     // reset = 0;
