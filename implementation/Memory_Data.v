@@ -18,7 +18,7 @@ wire[15:0] mem_in;
 wire[15:0] mem_out;
 
 assign mem_in = (addr == 0) ? 0 : data;
-assign out = (addr == 0) ? data : 0;
+assign out = ((addr == 0) && (we == 1)) ? data : 0; // fix
 
 raw_memory mem(
 	.data(mem_in),
