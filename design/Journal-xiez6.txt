@@ -55,3 +55,6 @@ Imm_Gen tests and more fix
 
 Wednesday, Nov1
 Imm_Gen fixes. Realied my understanding of bit position so far is all wrong. Numbers hard.
+
+Nov2 - Nov13
+Integration testing for WB stage, conclusion on design doc, presentation.
